@@ -13,7 +13,7 @@ public class Patient extends User {
         this.historique = historique;
     }
 
-    public ArrayList<AcceletionData> getHistorique() {return historique;}
+    public ArrayList<AccelerationData> getHistorique() {return historique;}
 
     public void setHistorique(ArrayList<AccelerationData> historique) {this.historique = historique;}
 
