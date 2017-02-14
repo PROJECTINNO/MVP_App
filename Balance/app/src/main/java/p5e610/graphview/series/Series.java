@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package com.example.katelynweingart.graphicstest.graphview.series;
+package p5e610.graphview.series;
 
 import android.graphics.Canvas;
 
-import com.example.katelynweingart.graphicstest.graphview.GraphView;
+import p5e610.graphview.GraphView;
 
 import java.util.Iterator;
 

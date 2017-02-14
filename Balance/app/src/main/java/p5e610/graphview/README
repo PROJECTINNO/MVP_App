@@ -23,7 +23,7 @@ construct a GraphView with this java code in the MainActivity:
 
 And this xml in content_main.xml (adjust height etc. as necessary):
 
-    <com.example.katelynweingart.graphicstest.graphview.GraphView
+    <p5e610.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="300dip"
         android:id="@+id/graph" />

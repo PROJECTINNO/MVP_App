@@ -14,20 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview.helper;
+package p5e610.graphview.helper;
+
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.example.katelynweingart.graphicstest.R;
-import com.example.katelynweingart.graphicstest.graphview.GraphView;
-import com.example.katelynweingart.graphicstest.graphview.series.BarGraphSeries;
-import com.example.katelynweingart.graphicstest.graphview.series.BaseSeries;
-import com.example.katelynweingart.graphicstest.graphview.series.DataPoint;
-import com.example.katelynweingart.graphicstest.graphview.series.LineGraphSeries;
-import com.example.katelynweingart.graphicstest.graphview.series.PointsGraphSeries;
+// TODO check if we need this import com.example.katelynweingart.graphicstest.R;
+import p5e610.balance.R;
+import p5e610.graphview.GraphView;
+import p5e610.graphview.series.BarGraphSeries;
+import p5e610.graphview.series.BaseSeries;
+import p5e610.graphview.series.DataPoint;
+import p5e610.graphview.series.LineGraphSeries;
+import p5e610.graphview.series.PointsGraphSeries;
 
 
 /**
