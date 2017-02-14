@@ -15,7 +15,14 @@ public class Doctor extends User {
 
     public void setPatientList(ArrayList<Patient> PatientList) {this.PatientList = PatientList;}
 
+<<<<<<< HEAD
+    @Override
+    public String toString() {
+        return "Doctor : PatientList = " + PatientList;
+    }
+=======
 //    @Override
 //    public String toString() {
 //        return "Doctor : PatientList = " + PatientList;
+>>>>>>> 69aea7727fe9c7f93471c6cd7f0181ee7060cf86
 }

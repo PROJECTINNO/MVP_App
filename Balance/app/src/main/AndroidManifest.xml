@@ -18,6 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+=======
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
@@ -26,6 +31,7 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme">
         </activity>
+>>>>>>> 69aea7727fe9c7f93471c6cd7f0181ee7060cf86
     </application>
 
 </manifest>
