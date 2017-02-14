@@ -52,6 +52,11 @@ import android.widget.TextView;
 
 import com.opencsv.CSVWriter;
 
+import p5e610.graphview.GraphView;
+import p5e610.graphview.series.DataPoint;
+import p5e610.graphview.series.LineGraphSeries;
+import p5e610.graphview.series.Series;
+
 
 public class TestActivity extends Activity implements SensorEventListener, OnClickListener {
     NotificationManager notificationManager;
@@ -284,7 +289,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
                 btnAcceleration.setEnabled(false);
-                openAcceleration();
+                seeGraph();
 
                 break;
             case R.id.btnAcceleration:
@@ -294,7 +299,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 started = false;
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
-                openAcceleration();
+                seeGraph();
 
                 break;
             case R.id.btnUpload:
@@ -567,6 +572,22 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
             // --------- End Plotting the drawing -----------------------------//
         }
+    }
+
+    /**
+     * This function enables to visualize the graph with graphview
+     */
+    private void seeGraph(){
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        DataPoint[] dpList = new DataPoint[accx.size()];
+        for (int i = 0; i < dpList.length; i++){
+            dpList[i] = new DataPoint(accx.get(i), accy.get(i));
+        }
+
+        Series<DataPoint> series = new LineGraphSeries<>(dpList);
+        graph.addSeries(series);
+
+
     }
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//

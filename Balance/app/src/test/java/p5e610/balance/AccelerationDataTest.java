@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
 public class AccelerationDataTest {
     @Test
     public void add_is_correct() throws Exception {
+        AccelerationData data = new AccelerationData();
         ArrayList<Double> x = new ArrayList<Double>();
-        assertEquals(x.addX(1.0),x.add(1.0));
+        assert(data.addX(1.0),x.add(1.0));
     }
 }
