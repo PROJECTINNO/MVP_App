@@ -15,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    
     // -------------- Verify Permissions is required for transferring data out of the application -------- //
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have read or write permission
