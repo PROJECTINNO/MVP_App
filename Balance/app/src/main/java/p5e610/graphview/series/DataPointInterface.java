@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview.series;
+package p5e610.graphview.series;
 
 /**
  * interface of data points. Implement this in order

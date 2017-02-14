@@ -18,14 +18,17 @@ public class Patient extends User {
     public void setHistorique(ArrayList<AccelerationData> historique) {this.historique = historique;}
 
     public Doctor getDoctor() {return doctor;}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 69aea7727fe9c7f93471c6cd7f0181ee7060cf86
 
     public void setDoctor(Doctor doctor){
         this.doctor = doctor;
     }
 
-    @Override
-    public String toString() {
-        return "Patient : Doctor = " + doctor + "Historique =" + historique;
-    }
+//    @Override
+//    public String toString() {
+//        return "Patient : Doctor = " + doctor + "Historique =" + historique;
+//    }
 }

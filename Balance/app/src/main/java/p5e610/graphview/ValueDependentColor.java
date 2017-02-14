@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview;
+package p5e610.graphview;
 
-import com.example.katelynweingart.graphicstest.graphview.series.DataPointInterface;
+import p5e610.graphview.series.DataPointInterface;
 
 /**
  * you can change the color depending on the value.
