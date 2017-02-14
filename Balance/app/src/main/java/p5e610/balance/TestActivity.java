@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.media.AudioManager;
+
 
 import java.util.ArrayList;
 
@@ -31,6 +34,8 @@ public class TestActivity extends AppCompatActivity {
     private boolean started = false;
     private AccelerationData sensorData;
     private AudioManager audioManager;
+    float[] mGravf = null;
+    float[] mMagnetf = null;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -89,8 +94,49 @@ public class TestActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        // Gets the value of the sensor that has been changed
+        if (started) {
+            if ((mGravf != null) && (mMagnetf != null) && (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION)) {
+//            if (event.sensor.getType()==Sensor.TYPE_LINEAR_ACCELERATION){
+                long timestamp = System.currentTimeMillis();
+                float[] deviceRelativeAcceleration = new float[4];
+                deviceRelativeAcceleration[0] = event.values[0];
+                deviceRelativeAcceleration[1] = event.values[1];
+                deviceRelativeAcceleration[2] = event.values[2];
+                deviceRelativeAcceleration[3] = 0;
+
+
+                // ----- If we want relative acceleration -------- //
+//                sensorData.addX(deviceRelativeAcceleration[0]);
+//                sensorData.addY(deviceRelativeAcceleration[1]);
+//                sensorData.addZ(deviceRelativeAcceleration[2]);
+//                sensorData.addTimestamp(timestamp);
+                // ----- If we want relative acceleration -------- //
+
+                // ----- If we want absolute acceleration -------- //
+                float[] R = new float[16], I = new float[16], earthAcc = new float[16];
+                SensorManager.getRotationMatrix(R, I, mGravf, mMagnetf);
+                float[] inv = new float[16];
+                android.opengl.Matrix.invertM(inv, 0, R, 0);
+                android.opengl.Matrix.multiplyMV(earthAcc, 0, inv, 0, deviceRelativeAcceleration, 0);
+                sensorData.addX(earthAcc[0]);
+                sensorData.addY(earthAcc[1]);
+                sensorData.addZ(earthAcc[2]);
+                sensorData.addTimestamp(timestamp);
+                // ----- If we want absolute acceleration -------- //
+            }
+            else if (event.sensor.getType() == Sensor.TYPE_GRAVITY){
+                mGravf = event.values;
+            } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD){
+                mMagnetf = event.values;
+            }
+        }
+    }
+
 
 }
 
 
-}

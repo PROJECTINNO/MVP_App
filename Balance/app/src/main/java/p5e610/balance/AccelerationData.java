@@ -66,6 +66,30 @@ public class AccelerationData {
         this.z = z;
     }
 
+    public void addX(double data){
+        ArrayList<Double> old = this.getX();
+        old.add(data);
+        this.setX(old);
+    }
+
+    public void addY(double data){
+        ArrayList<Double> old = this.getY();
+        old.add(data);
+        this.setY(old);
+    }
+
+    public void addZ(double data){
+        ArrayList<Double> old = this.getZ();
+        old.add(data);
+        this.setZ(old);
+    }
+
+    public void addTimestamp(long data){
+        ArrayList<Long> old = this.getTimestamp();
+        old.add(data);
+        this.setTimestamp(old);
+    }
+
     @Override
     public String toString() {
         return "AccelerationData{" +
