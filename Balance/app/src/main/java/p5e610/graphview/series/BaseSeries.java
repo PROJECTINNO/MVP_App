@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview.series;
+package p5e610.graphview.series;
 
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.example.katelynweingart.graphicstest.graphview.GraphView;
+import p5e610.graphview.GraphView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

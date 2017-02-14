@@ -18,7 +18,7 @@ public class Patient extends User {
     public void setHistorique(ArrayList<AccelerationData> historique) {this.historique = historique;}
 
     public Doctor getDoctor() {return doctor;}
-
+    }
 
     public void setDoctor(Doctor doctor){
         this.doctor = doctor;
