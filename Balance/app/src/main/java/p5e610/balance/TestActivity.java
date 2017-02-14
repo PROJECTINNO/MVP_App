@@ -289,6 +289,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
                 btnAcceleration.setEnabled(false);
+                openAcceleration();
                 seeGraph();
 
                 break;
@@ -299,6 +300,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 started = false;
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
+                openAcceleration();
                 seeGraph();
 
                 break;
