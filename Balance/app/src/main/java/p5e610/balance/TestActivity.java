@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 
 public class TestActivity extends AppCompatActivity {
-<<<<<<< HEAD
+
 
 =======
 <<<<<<< HEAD
@@ -56,6 +56,7 @@ public class TestActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+<<<<<<< HEAD
 =======
 //
 >>>>>>> 69aea7727fe9c7f93471c6cd7f0181ee7060cf86
@@ -86,12 +87,14 @@ public class TestActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
 =======
 >>>>>>> 72f5dc3eda4e03aebcfb4ae1f66e35c9b6d561b7
+=======
+
+>>>>>>> e5a427b745f98560ccd81a65f1b2d490977a18d3
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
         layout = (RelativeLayout) findViewById(R.id.chart_container);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -216,6 +219,7 @@ public class TestActivity extends AppCompatActivity {
 
 
 }
+<<<<<<< HEAD
 =======
 >>>>>>> 69aea7727fe9c7f93471c6cd7f0181ee7060cf86
 //        NotificationManager notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
@@ -315,6 +319,9 @@ public class TestActivity extends AppCompatActivity {
 //    }
 
     }}
+=======
+
+>>>>>>> e5a427b745f98560ccd81a65f1b2d490977a18d3
 
 
 
