@@ -1,4 +1,5 @@
-package com.example.katelynweingart.graphicstest.graphview;
+package p5e610.graphview;
+
 /**
  * GraphView
  * Copyright 2016 Jonas Gehring
@@ -27,7 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-import com.example.katelynweingart.graphicstest.graphview.series.Series;
+import p5e610.graphview.series.Series;
 
 import java.util.ArrayList;
 import java.util.Collections;

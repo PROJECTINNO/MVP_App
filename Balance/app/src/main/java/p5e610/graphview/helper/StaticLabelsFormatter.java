@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview.helper;
+package p5e610.graphview.helper;
 
 
-import com.example.katelynweingart.graphicstest.graphview.DefaultLabelFormatter;
-import com.example.katelynweingart.graphicstest.graphview.GraphView;
-import com.example.katelynweingart.graphicstest.graphview.LabelFormatter;
-import com.example.katelynweingart.graphicstest.graphview.Viewport;
+import p5e610.graphview.DefaultLabelFormatter;
+import p5e610.graphview.GraphView;
+import p5e610.graphview.LabelFormatter;
+import p5e610.graphview.Viewport;
 
 /**
  * Use this label formatter to show static labels.
