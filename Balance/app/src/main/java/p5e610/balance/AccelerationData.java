@@ -66,7 +66,6 @@ public class AccelerationData {
         this.z = z;
     }
 
-
     public void addX(double data){
         ArrayList<Double> old = this.getX();
         old.add(data);
@@ -90,6 +89,7 @@ public class AccelerationData {
         old.add(data);
         this.setTimestamp(old);
     }
+
     @Override
     public String toString() {
         return "AccelerationData{" +
