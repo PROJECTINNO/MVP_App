@@ -84,6 +84,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     private ArrayList<Double> treated_data_z;
     private Canvas canvas = new Canvas();
     private Paint paint = new Paint();
+    private GraphView graph;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -107,7 +108,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
-
+        graph = (GraphView) findViewById(R.id.graph);
         mPrepField = (EditText) findViewById((R.id.prepText));
         mTextField = (EditText) findViewById(R.id.editText);
         mTextField.setEnabled(false);
@@ -124,6 +125,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         if (sensorData == null || sensorData.getX().size() == 0) {
             btnUpload.setEnabled(false);
         }
+        layout.removeAllViews();
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -289,7 +291,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
                 btnAcceleration.setEnabled(false);
-                openAcceleration();
                 seeGraph();
 
                 break;
@@ -300,7 +301,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 started = false;
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
-                openAcceleration();
                 seeGraph();
 
                 break;
@@ -580,16 +580,19 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
      * This function enables to visualize the graph with graphview
      */
     private void seeGraph(){
-        GraphView graph = (GraphView) findViewById(R.id.graph);
+        accx = new ArrayList<Double>();
+        accy = new ArrayList<Double>();
+        accx = TestAlgorithms.calculateAverage(sensorData.getX());
+        accy = TestAlgorithms.calculateAverage(sensorData.getY());
         DataPoint[] dpList = new DataPoint[accx.size()];
-        for (int i = 0; i < dpList.length; i++){
+        for (int i = 0; i < accx.size(); i++){
             dpList[i] = new DataPoint(accx.get(i), accy.get(i));
+            System.out.println(dpList[i]);
         }
 
-        Series<DataPoint> series = new LineGraphSeries<>(dpList);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dpList);
         graph.addSeries(series);
-
-
+        layout.addView(graph);
     }
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//

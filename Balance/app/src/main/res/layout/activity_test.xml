@@ -45,11 +45,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <p5e610.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="300dip"
-            android:id="@+id/graph" />
-
 
         <Button
             android:id="@+id/btnStop"
@@ -90,6 +85,15 @@
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/editText"
             />
+
+        <p5e610.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="300dip"
+            android:id="@+id/graph"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 </RelativeLayout>
