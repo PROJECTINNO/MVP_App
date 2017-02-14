@@ -18,7 +18,7 @@ public class AccelerationDataTest {
         ArrayList<Double> x = new ArrayList<Double>();
         data.addX(1.0);
         x.add(1.0);
-        assertEquals(data,x);
+        assertEquals(x,data.getX());
     }
     @Test
     public void addtimestamp_is_correct() throws Exception {
@@ -28,6 +28,6 @@ public class AccelerationDataTest {
         long l = (new Double(d)).longValue();
         data.addTimestamp(l);
         timestamp.add(l);
-        assertEquals(data,timestamp);
+        assertEquals(timestamp,data.getTimestamp());
     }
 }
