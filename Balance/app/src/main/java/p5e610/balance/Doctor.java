@@ -20,4 +20,5 @@ public class Doctor extends User {
     public String toString() {
         return "Doctor : PatientList = " + PatientList;
     }
+
 }
