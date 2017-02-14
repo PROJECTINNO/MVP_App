@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.katelynweingart.graphicstest.graphview;
+package p5e610.graphview;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 
-import com.example.katelynweingart.graphicstest.graphview.series.Series;
+import p5e610.graphview.series.Series;
 
 import java.util.ArrayList;
 import java.util.List;

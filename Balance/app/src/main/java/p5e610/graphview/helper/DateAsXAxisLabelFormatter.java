@@ -18,7 +18,7 @@ package com.jjoe64.graphview.helper;
 
 import android.content.Context;
 
-import com.example.katelynweingart.graphicstest.graphview.DefaultLabelFormatter;
+import p5e610.graphview.DefaultLabelFormatter;
 
 import java.text.DateFormat;
 import java.util.Calendar;
