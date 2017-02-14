@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.media.AudioManager;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +38,7 @@ public class TestActivity extends AppCompatActivity {
     private AudioManager audioManager;
     float[] mGravf = null;
     float[] mMagnetf = null;
+    private EditText mTextField;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -95,6 +98,31 @@ public class TestActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (started == true) {
+            sensorManager.unregisterListener(this);
+        }
+
+        mTextField.playSoundEffect(0);
+    }
+
+    public void onBackPressed() {
+        mTextField.playSoundEffect(0);
+
+        MediaPlayer mp = new MediaPlayer();
+        mp.stop();
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
 
         // Gets the value of the sensor that has been changed
@@ -134,6 +162,14 @@ public class TestActivity extends AppCompatActivity {
                 mMagnetf = event.values;
             }
         }
+    }
+
+    private void seeGraph(){
+        //here the code to visualize the graph
+    }
+
+    private void saveDataToCSV() throws IOException {
+        //to upoad the data
     }
 
 
