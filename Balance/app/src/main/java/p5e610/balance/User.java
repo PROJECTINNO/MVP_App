@@ -1,7 +1,5 @@
 package p5e610.balance;
 
-
-
 public class User {
 
    private String name;
