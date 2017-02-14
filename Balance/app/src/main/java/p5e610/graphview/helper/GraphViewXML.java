@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ?
+package p5e610.graphview.helper;
+
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,7 +23,8 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.example.katelynweingart.graphicstest.R;
+// TODO check if we need this import com.example.katelynweingart.graphicstest.R;
+import p5e610.balance.R;
 import p5e610.graphview.GraphView;
 import p5e610.graphview.series.BarGraphSeries;
 import p5e610.graphview.series.BaseSeries;
