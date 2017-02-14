@@ -6,13 +6,28 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+import p5e610.balance.AccelerationData;
+
 /**
  * Created by Julien on 14/02/2017.
  */
 public class AccelerationDataTest {
     @Test
-    public void add_is_correct() throws Exception {
+    public void addX_is_correct() throws Exception {
+        AccelerationData data = new AccelerationData();
         ArrayList<Double> x = new ArrayList<Double>();
-        assertEquals(x.addX(1.0),x.add(1.0));
+        data.addX(1.0);
+        x.add(1.0);
+        assertEquals(data,x);
+    }
+    @Test
+    public void addtimestamp_is_correct() throws Exception {
+        AccelerationData data = new AccelerationData();
+        ArrayList<Long> timestamp = new ArrayList<Long>();
+        double d=1.0;
+        long l = (new Double(d)).longValue();
+        data.addTimestamp(l);
+        timestamp.add(l);
+        assertEquals(data,timestamp);
     }
 }
