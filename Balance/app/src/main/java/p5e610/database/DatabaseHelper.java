@@ -118,7 +118,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.query(USER_TABLE_NAME, USER_COLUMNS, selection, selectionArgs, groupBy, having, orderBy, limit);
         Map<String,String> res = new HashMap<>();
-        c.moveToFirst();
+        if(!c.moveToFirst()) {
+            c.close();
+            return null;
+        }
         for(String col : USER_COLUMNS) {
             int i = c.getColumnIndex(col);
             res.put(col, c.getString(i));
