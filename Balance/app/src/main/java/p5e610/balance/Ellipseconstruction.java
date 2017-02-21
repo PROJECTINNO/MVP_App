@@ -34,6 +34,7 @@ public class Ellipseconstruction {
         Double a = M[0][0];
         Double b = M[0][1];
         Double c = M[1][1];
+
         Double Delta = (a - c) * (a - c) + 4 * b * b;
 
         Double[] res = {((a + c) + Math.sqrt(Delta)) / 2, (((a + c) - Math.sqrt(Delta)) / 2)};

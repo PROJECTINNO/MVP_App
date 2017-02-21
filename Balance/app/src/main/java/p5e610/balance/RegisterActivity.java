@@ -1,12 +1,16 @@
 package p5e610.balance;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import p5e610.database.DatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -20,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
         final EditText etLastName = (EditText) findViewById(R.id.etLastName);
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
+        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
         final EditText etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
         final Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -33,10 +38,17 @@ public class RegisterActivity extends AppCompatActivity {
                 final String lastName = etLastName.getText().toString();
                 final String userName = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
+                final String email = etEmail.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
-                Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
-                RegisterActivity.this.startActivity(continueIntent);
+                DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
+                if(dh.usernameTaken(userName)) {
+                    Toast.makeText(getApplicationContext(), "USERNAME TAKEN", Toast.LENGTH_LONG).show();
+                } else {
+                    dh.addUser(firstName, lastName, userName, email, password, false);
+                    Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
+                    RegisterActivity.this.startActivity(continueIntent);
+                }
             }
 
         });
