@@ -16,20 +16,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Start" />
+            android:text="Start"
+            android:backgroundTint="@android:color/transparent"
+            style="@style/Widget.AppCompat.Button" />
 
         <Button
             android:id="@+id/btnAcceleration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Acceleration" />
+            android:text="Acceleration"
+            android:backgroundTint="@android:color/transparent" />
         <Button
             android:id="@+id/btnUpload"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Upload" />
+            android:text="Upload"
+            android:backgroundTint="@android:color/transparent" />
 
     </LinearLayout>
 
