@@ -37,7 +37,7 @@ public class EllipseConstructionTest {
     }
 
     @Test
-    public void valeurspropres_is_correct() throws Exception {
+    public void eigenvalues_is_correct() throws Exception {
         Ellipseconstruction data = new Ellipseconstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
@@ -46,7 +46,7 @@ public class EllipseConstructionTest {
         y.add(0.0);
         y.add(4.0);
         Double[] vp = {10.0, 0.0};
-        assert(Arrays.equals(data.valeurspropres(x,y),vp));
+        assert(Arrays.equals(data.eigenvalues(x,y),vp));
     }
 
     @Test
@@ -62,19 +62,20 @@ public class EllipseConstructionTest {
         assert(Arrays.equals(data.mainDirection(x,y),vp));
     }
     @Test
-    public void pourcentage_is_correct() throws Exception {
+    public void percentage_is_correct() throws Exception {
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
         x.add(0.0);
         x.add(1.0);
         x.add(-1.0);
         y.add(0.0);
-        y.add(10.0);
+        y.add(1.0);
         y.add(-1.0);
         Double theta = Math.PI / 4;
         Double a = 2.0;
         Double b = 1.0;
         Double p = 1.0;
-        assert(Ellipseconstruction.pourcentage(x,y,a,b,theta,p)== 2.0/3.0);
+        System.out.println(Ellipseconstruction.percentage(x,y,a,b,theta,p));
+        assert(Ellipseconstruction.percentage(x,y,a,b,theta,p)== 1.0);
     }
 }

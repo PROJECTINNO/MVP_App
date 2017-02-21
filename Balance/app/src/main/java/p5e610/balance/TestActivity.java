@@ -631,8 +631,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         double x0 = Ellipseconstruction.mean(accx);
         double y0 = Ellipseconstruction.mean(accy);
         double theta = Ellipseconstruction.angle(accx,accy);
-        double a = Ellipseconstruction.valeurspropres(accx,accy)[0];
-        double b = Ellipseconstruction.valeurspropres(accx,accy)[1];
+        double a = Ellipseconstruction.eigenvalues(accx,accy)[0];
+        double b = Ellipseconstruction.eigenvalues(accx,accy)[1];
         for (int i = 0; i<100;i++){
             t.add(2.0*Math.PI*i/100.0);
             x.add(x0 + a*Math.cos(t.get(i))*Math.cos(theta) - b*Math.sin(t.get(i))*Math.sin(theta));

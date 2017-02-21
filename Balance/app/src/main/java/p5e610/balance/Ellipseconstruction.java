@@ -28,7 +28,7 @@ public class Ellipseconstruction {
     }
 
 
-    public static Double[] valeurspropres (ArrayList <Double> X , ArrayList <Double> Y) {
+    public static Double[] eigenvalues (ArrayList <Double> X , ArrayList <Double> Y) {
 
         Double[][] M = covariance(X, Y);
         Double a = M[0][0];
@@ -44,7 +44,7 @@ public class Ellipseconstruction {
         Double[][] M = covariance(X,Y);
         Double a = M[0][0];
         Double b = M[0][1];
-        Double lambda = valeurspropres(X,Y)[0];
+        Double lambda = eigenvalues(X,Y)[0];
         Double[] res = {1.,0.};
         if (b == 0) {
             return res;
@@ -73,17 +73,17 @@ public class Ellipseconstruction {
 
     }
 
-    public static Boolean dansEllipse (Double x , Double y,Double a,Double b,Double theta) {
+    public static Boolean inEllipse (Double x , Double y,Double a,Double b,Double theta,Double X0,Double Y0) {
         Double X = Math.cos(theta)*x + Math.sin(theta)*y;
         Double Y = Math.cos(theta)*y - Math.sin(theta)*x;
-        return (X*X/(a*a))+ (Y*Y)/b*b <= 1. ;
+        return (((X-X0*(X-X0))/(a*a))+ (((Y-Y0)*(Y-Y0))/b*b) <= 1.);
 
     }
 
-    public static double pourcentage (ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
+    public static double percentage (ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
         double i = 0;
         for (int j = 0 ; j < X.size(); j++)
-        { if (dansEllipse(X.get(j),Y.get(j),p*a,p*b,theta)){
+        { if (inEllipse(X.get(j),Y.get(j),p*a,p*b,theta,mean(X),mean(Y))){
             i = i+1.0; }
         }
         double po = i/X.size();
