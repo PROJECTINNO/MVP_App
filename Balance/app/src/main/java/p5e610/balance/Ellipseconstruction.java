@@ -80,14 +80,14 @@ public class Ellipseconstruction {
 
     }
 
-    public static Boolean pourcentage (ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p, Double R) {
-        int i = 0;
+    public static double pourcentage (ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
+        double i = 0;
         for (int j = 0 ; j < X.size(); j++)
         { if (dansEllipse(X.get(j),Y.get(j),p*a,p*b,theta)){
-            i = i+1; }
+            i = i+1.0; }
         }
-        i=i/X.size();
-        return i <= R;
+        double po = i/X.size();
+        return po;
     }
 
 }
