@@ -48,9 +48,21 @@ public class RegisterActivity extends AppCompatActivity {
                     dh.addUser(firstName, lastName, userName, email, password, false);
                     Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
                     RegisterActivity.this.startActivity(continueIntent);
+                    finish();
                 }
             }
 
         });
+
+        btnReturn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent returnIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(returnIntent);
+                finish();
+            }
+
+            });
+
     }
 }
