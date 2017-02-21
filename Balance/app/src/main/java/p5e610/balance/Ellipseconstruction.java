@@ -30,19 +30,17 @@ public class Ellipseconstruction {
 
     public static Double[] valeurspropres (ArrayList <Double> X , ArrayList <Double> Y) {
 
-        Double[][] M = covariance(X,Y);
+        Double[][] M = covariance(X, Y);
         Double a = M[0][0];
         Double b = M[0][1];
         Double c = M[1][1];
-        Double Delta = (a-c)*(a-c) + 4*b*b;
-        Double [] res = {((a+c)+ Math.sqrt(Delta))/2 ,(((a+c) - Math.sqrt(Delta))/2) };
+        Double Delta = (a - c) * (a - c) + 4 * b * b;
 
-
-
-        return res ;
+        Double[] res = {((a + c) + Math.sqrt(Delta)) / 2, (((a + c) - Math.sqrt(Delta)) / 2)};
+        return res;
     }
 
-    public static Double[] mainDirection (ArrayList <Double> X , ArrayList <Double> Y) {
+    public static Double[] mainDirection (ArrayList<Double> X , ArrayList <Double> Y) {
         Double[][] M = covariance(X,Y);
         Double a = M[0][0];
         Double b = M[0][1];
