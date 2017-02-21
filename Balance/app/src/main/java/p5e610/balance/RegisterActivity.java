@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = etPassword.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
-                Intent continueIntent = new Intent(RegisterActivity.this, TestActivity.class);
+                Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
                 RegisterActivity.this.startActivity(continueIntent);
             }
 

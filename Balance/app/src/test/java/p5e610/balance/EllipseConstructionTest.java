@@ -3,6 +3,7 @@ package p5e610.balance;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,17 +15,50 @@ import p5e610.balance.Ellipseconstruction;
 
 public class EllipseConstructionTest {
     @Test
-    public void ellipse_is_correct() throws Exception {
+    public void mean_is_correct() throws Exception {
+        Ellipseconstruction data = new Ellipseconstruction();
+        ArrayList<Double> x = new ArrayList<Double>();
+        x.add(0.0);
+        x.add(2.0);
+        assert(Ellipseconstruction.mean(x) == 1.0);
+    }
+
+    @Test
+    public void covar_is_correct() throws Exception {
         Ellipseconstruction data = new Ellipseconstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
-        Double [] vectp = {1.0,0.0};
+        //Double[] vectp = {1.0, 0.0};
         x.add(0.0);
         x.add(2.0);
         y.add(0.0);
-        y.add(0.0);
+        y.add(4.0);
+        assert(Ellipseconstruction.covar(x,y) == 4.0);
+    }
 
-        assertEquals(2.0, data.valeurspropres()[0]);
-        assertEquals(0.0, data.valeurspropres()[1]);
-        assertEquals(vectp, data.MainDirection());
+    @Test
+    public void valeurspropres_is_correct() throws Exception {
+        Ellipseconstruction data = new Ellipseconstruction();
+        ArrayList<Double> x = new ArrayList<Double>();
+        ArrayList<Double> y = new ArrayList<Double>();
+        x.add(0.0);
+        x.add(2.0);
+        y.add(0.0);
+        y.add(4.0);
+        Double[] vp = {10.0, 0.0};
+        assert(Arrays.equals(data.valeurspropres(x,y),vp));
+    }
+
+    @Test
+    public void maindirection_is_correct() throws Exception {
+        Ellipseconstruction data = new Ellipseconstruction();
+        ArrayList<Double> x = new ArrayList<Double>();
+        ArrayList<Double> y = new ArrayList<Double>();
+        x.add(0.0);
+        x.add(2.0);
+        y.add(0.0);
+        y.add(4.0);
+        Double[] vp = {1.0/Math.sqrt(5), 2.0/Math.sqrt(5)};
+        assert(Arrays.equals(data.MainDirection(x,y),vp));
+    }
 }

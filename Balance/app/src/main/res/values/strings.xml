@@ -2,4 +2,6 @@
     <string name="app_name">Balance</string>
     <string name="title_activity_home">Balance</string>
     <string name="title_activity_user">Balance</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
