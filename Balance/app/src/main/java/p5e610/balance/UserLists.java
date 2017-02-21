@@ -6,4 +6,5 @@ package p5e610.balance;
 
 public final class UserLists {
 
+
 }

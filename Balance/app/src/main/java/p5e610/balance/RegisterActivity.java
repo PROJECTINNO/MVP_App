@@ -1,5 +1,6 @@
 package p5e610.balance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = etPassword.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
-
+                Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
+                RegisterActivity.this.startActivity(continueIntent);
             }
 
         });

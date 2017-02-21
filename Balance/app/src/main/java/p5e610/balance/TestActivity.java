@@ -29,7 +29,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
@@ -44,6 +47,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -53,6 +57,7 @@ import android.widget.TextView;
 import com.opencsv.CSVWriter;
 
 import p5e610.graphview.GraphView;
+import p5e610.graphview.LegendRenderer;
 import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
 import p5e610.graphview.series.Series;
@@ -96,6 +101,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_test);
         notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
         layout = (RelativeLayout) findViewById(R.id.chart_container);
@@ -230,11 +236,14 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnStart.setEnabled(false);
                 btnAcceleration.setEnabled(true);
                 btnUpload.setEnabled(true);
+                btnStop.setVisibility(View.INVISIBLE);
+                btnStop.setEnabled(false);
                 sensorData = new AccelerationData();
                 accx = new ArrayList<Double>();
                 accy = new ArrayList<Double>();
                 accz = new ArrayList<Double>();
 
+                graph.removeAllSeries();
                 Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
                 sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
 
@@ -250,7 +259,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 // ----------- FUTURE WORK -------------- //
 
 
-                new CountDownTimer(5000, 1000) {
+                new CountDownTimer(20000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         started = true;
@@ -259,7 +268,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                         mTextField.playSoundEffect(SoundEffectConstants.CLICK);
                         mTextField.setVisibility(View.VISIBLE);
                         mTextField.setText("TIME REMAINING: " + millisUntilFinished / 1000 + "s");
-
+                        mTextField.setTextSize(24);
                     }
 
                     public void onFinish() {
@@ -576,22 +585,51 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         }
     }
 
+
     /**
      * This function enables to visualize the graph with graphview
      */
     private void seeGraph(){
+        graph.removeAllSeries();
         accx = new ArrayList<Double>();
         accy = new ArrayList<Double>();
         accx = TestAlgorithms.calculateAverage(sensorData.getX());
         accy = TestAlgorithms.calculateAverage(sensorData.getY());
         DataPoint[] dpList = new DataPoint[accx.size()];
+        double[] dpList_test_x = new double[accx.size()];
+        double[] dpList_test_y = new double[accx.size()];
         for (int i = 0; i < accx.size(); i++){
             dpList[i] = new DataPoint(accx.get(i), accy.get(i));
-            System.out.println(dpList[i]);
+            dpList_test_x[i] = accx.get(i);
+            dpList_test_y[i] = accy.get(i);
         }
+
+        // Tests ---
+        Arrays.sort(dpList_test_x);
+        Arrays.sort(dpList_test_y);
+
+        double minx = dpList_test_x[0];
+        double miny = dpList_test_y[0];
+        double maxx = dpList_test_x[dpList_test_x.length-1];
+        double maxy = dpList_test_y[dpList_test_y.length-1];
+
+
+        System.out.println("Min x: " + minx);
+        System.out.println("Max x: " + maxx);
+        System.out.println("Min y: " + miny);
+        System.out.println("Max y: " + maxy);
+        // ---- Tests
+
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dpList);
         graph.addSeries(series);
+        graph.getViewport().setMinX(minx);
+        graph.getViewport().setMaxX(maxx);
+        graph.getViewport().setMinY(miny);
+        graph.getViewport().setMaxY(maxy);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.setTitle("Graph of x vs y acceleration (ms^-2)");
         layout.addView(graph);
     }
     private void saveDataToCSV() throws IOException {
