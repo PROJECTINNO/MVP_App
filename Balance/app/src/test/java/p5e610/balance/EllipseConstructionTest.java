@@ -61,4 +61,6 @@ public class EllipseConstructionTest {
         Double[] vp = {1.0/Math.sqrt(5), 2.0/Math.sqrt(5)};
         assert(Arrays.equals(data.MainDirection(x,y),vp));
     }
+
+    
 }
