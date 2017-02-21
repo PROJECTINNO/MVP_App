@@ -33,7 +33,7 @@ public class Ellipseconstruction {
         Double a = M[0][0];
         Double b = M[0][1];
         Double c = M[1][1];
-        Double Delta = (a-c)*(a-c) + b*b;
+        Double Delta = (a-c)*(a-c) + 4*b*b;
         Double [] res = {(-b+ Math.sqrt(Delta))/2 ,(-b - Math.sqrt(Delta))/2 };
         return res ;
     }
@@ -54,6 +54,19 @@ public class Ellipseconstruction {
             res[1] = N * (lambda - a)/b ;
             return res ;
 
+        }
+
+    }
+
+    public Double Angle (ArrayList <Double> X , ArrayList <Double> Y) {
+        Double[] A = MainDirection(X,Y);
+        if (A[0] == 0) {
+            return Math.abs(A[1]) * Math.PI/2 ;
+        }
+        else {
+            Double B = A[1]/A[0];
+            Double res = A[0] *  Math.atan(B)/ Math.abs(A[0]);
+            return res;
         }
 
     }
