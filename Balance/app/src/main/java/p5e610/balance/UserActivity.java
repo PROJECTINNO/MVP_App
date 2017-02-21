@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView header_message1;
-    TextView header_message2;
+    private TextView h1;
+    private TextView h2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +27,6 @@ public class UserActivity extends AppCompatActivity
         setContentView(R.layout.activity_user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        header_message1 = (TextView) findViewById(R.id.header_message1);
-        header_message2 = (TextView) findViewById(R.id.header_message2);
-
-        header_message1.setText("Hello");
-        header_message2.setText("World");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +45,13 @@ public class UserActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+       View hView = navigationView.getHeaderView(0);
+        h1 = (TextView) hView.findViewById(R.id.welcome_header1);
+        h2 = (TextView) hView.findViewById(R.id.welcome_header2);
+
+        h1.setText("Welcome");
+        h2.setText("Balance App 1.0");
     }
 
     @Override
