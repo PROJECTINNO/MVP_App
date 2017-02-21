@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import p5e610.database.DatabaseHelper;
 
@@ -56,6 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         final Button btnLogin = (Button) findViewById(R.id.btnLogin);
         final TextView registerHere = (TextView) findViewById(R.id.tvRegisterHere);
 
+        btnLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
+                DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
+                if(dh.passwordMatches(etUsername.getText().toString(), etPassword.getText().toString())) {
+                    LoginActivity.this.startActivity(loginIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "YOU ARE NOT A USER", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         registerHere.setOnClickListener(new View.OnClickListener()
         {
             @Override

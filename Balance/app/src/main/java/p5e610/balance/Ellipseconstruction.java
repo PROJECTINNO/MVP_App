@@ -22,24 +22,25 @@ public class Ellipseconstruction {
         return sumsq;
     }
 
-    public Double[][] covariance (ArrayList <Double> X , ArrayList <Double> Y) {
+    public static Double[][] covariance (ArrayList <Double> X , ArrayList <Double> Y) {
         Double[][] resultat = {{covar(X,X) , covar(X,Y)}, {covar (X,Y), covar(Y,Y)}};
         return resultat;
     }
 
-    public Double[] valeurspropres (ArrayList <Double> X , ArrayList <Double> Y) {
 
-        Double[][] M = covariance(X,Y);
+    public static Double[] valeurspropres (ArrayList <Double> X , ArrayList <Double> Y) {
+
+        Double[][] M = covariance(X, Y);
         Double a = M[0][0];
         Double b = M[0][1];
         Double c = M[1][1];
-        Double Delta = (a-c)*(a-c) + 4*b*b;
-        Double [] res = {((a+c)+ Math.sqrt(Delta))/2 ,(((a+c) - Math.sqrt(Delta))/2) };
+        Double Delta = (a - c) * (a - c) + 4 * b * b;
 
-        return res ;
+        Double[] res = {((a + c) + Math.sqrt(Delta)) / 2, (((a + c) - Math.sqrt(Delta)) / 2)};
+        return res;
     }
 
-    public Double[] MainDirection (ArrayList <Double> X , ArrayList <Double> Y) {
+    public static Double[] mainDirection (ArrayList<Double> X , ArrayList <Double> Y) {
         Double[][] M = covariance(X,Y);
         Double a = M[0][0];
         Double b = M[0][1];
@@ -59,8 +60,8 @@ public class Ellipseconstruction {
 
     }
 
-    public Double Angle (ArrayList <Double> X , ArrayList <Double> Y) {
-        Double[] A = MainDirection(X,Y);
+    public static Double angle (ArrayList <Double> X , ArrayList <Double> Y) {
+        Double[] A = mainDirection(X,Y);
         if (A[0] == 0) {
             return Math.abs(A[1]) * Math.PI/2 ;
         }
@@ -71,6 +72,24 @@ public class Ellipseconstruction {
         }
 
     }
+
+    public static Boolean dansEllipse (Double x , Double y,Double a,Double b,Double theta) {
+        Double X = Math.cos(theta)*x + Math.sin(theta)*y;
+        Double Y = Math.cos(theta)*y - Math.sin(theta)*x;
+        return (X*X/(a*a))+ (Y*Y)/b*b <= 1. ;
+
+    }
+
+    public static Boolean pourcentage (ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p, Double R) {
+        int i = 0;
+        for (int j = 0 ; j < X.size(); j++)
+        { if (dansEllipse(X.get(j),Y.get(j),p*a,p*b,theta)){
+            i = i+1; }
+        }
+        i=i/X.size();
+        return i <= R;
+    }
+
 }
 
 
