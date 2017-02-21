@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import p5e610.database.DatabaseHelper;
+//import p5e610.database.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -44,10 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
-        Long id = dh.addUser("NotA", "Doctor", "notADoctor", "patient@patient.net", "securePassword", false);
-        User u = dh.queryUser(id);
+//
+//        DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
+//        Long id = dh.addUser("NotA", "Doctor", "notADoctor", "patient@patient.net", "securePassword", false);
+//        User u = dh.queryUser(id);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
