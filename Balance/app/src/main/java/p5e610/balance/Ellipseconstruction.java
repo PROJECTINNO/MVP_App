@@ -19,7 +19,7 @@ public class Ellipseconstruction {
         double sumsq = 0.0;
         for (int i = 0; i < v1.size(); i++){
             sumsq += (m1 - v1.get(i)) * (m2 - v2.get(i));}
-        return sumsq / (v1.size());
+        return sumsq;
     }
 
     public Double[][] covariance (ArrayList <Double> X , ArrayList <Double> Y) {
@@ -33,8 +33,8 @@ public class Ellipseconstruction {
         Double a = M[0][0];
         Double b = M[0][1];
         Double c = M[1][1];
-        Double Delta = (a-c)*(a-c) + b*b;
-        Double [] res = {(-b+ Math.sqrt(Delta))/2 ,(-b - Math.sqrt(Delta))/2 };
+        Double Delta = (a-c)*(a-c) + 4*b*b;
+        Double [] res = {((a+c)+ Math.sqrt(Delta))/2 ,(((a+c) - Math.sqrt(Delta))/2) };
         return res ;
     }
 
