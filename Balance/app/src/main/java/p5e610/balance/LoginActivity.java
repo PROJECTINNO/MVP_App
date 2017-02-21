@@ -46,7 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
-        dh.addUser("NotA", "Doctor", "notADoctor", "patient@patient.net", "securePassword", false);
+        Long id = dh.addUser("NotA", "Doctor", "notADoctor", "patient@patient.net", "securePassword", false);
+        User u = dh.queryUser(id);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
