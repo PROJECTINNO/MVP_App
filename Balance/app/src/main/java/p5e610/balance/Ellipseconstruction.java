@@ -35,6 +35,7 @@ public class Ellipseconstruction {
         Double c = M[1][1];
         Double Delta = (a-c)*(a-c) + 4*b*b;
         Double [] res = {((a+c)+ Math.sqrt(Delta))/2 ,(((a+c) - Math.sqrt(Delta))/2) };
+
         return res ;
     }
 
