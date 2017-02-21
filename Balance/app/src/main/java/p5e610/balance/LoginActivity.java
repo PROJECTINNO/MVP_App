@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import p5e610.database.DatabaseHelper;
 
-//import p5e610.database.DatabaseHelper;
-
 public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {

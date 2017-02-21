@@ -61,6 +61,7 @@ import p5e610.graphview.LegendRenderer;
 import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
 import p5e610.graphview.series.Series;
+import p5e610.balance.Ellipseconstruction;
 
 
 public class TestActivity extends Activity implements SensorEventListener, OnClickListener {
@@ -619,6 +620,34 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         System.out.println("Min y: " + miny);
         System.out.println("Max y: " + maxy);
         // ---- Tests
+
+
+        // ---- Ellipse
+        //
+
+        ArrayList<Double> t = new ArrayList<Double>(); //parametric angle
+        ArrayList<Double> x = new ArrayList<Double>(); // absisse
+        ArrayList<Double> y = new ArrayList<Double>(); //ordonnée
+        double x0 = Ellipseconstruction.mean(accx);
+        double y0 = Ellipseconstruction.mean(accy);
+        double theta = Ellipseconstruction.angle(accx,accy);
+        double a = Ellipseconstruction.valeurspropres(accx,accy)[0];
+        double b = Ellipseconstruction.valeurspropres(accx,accy)[1];
+        for (int i = 0; i<100;i++){
+            t.add(2.0*Math.PI*i/100.0);
+            x.add(x0 + a*Math.cos(t.get(i))*Math.cos(theta) - b*Math.sin(t.get(i))*Math.sin(theta));
+            y.add(y0 + a*Math.cos(t.get(i))*Math.sin(theta) - b*Math.sin(t.get(i))*Math.cos(theta));
+        }
+
+        DataPoint[] ellipseList = new DataPoint[t.size()];
+        for (int i = 0; i < t.size(); i++){
+            ellipseList[i] = new DataPoint(x.get(i), y.get(i));
+        }
+
+        LineGraphSeries<DataPoint> ellipseSeries = new LineGraphSeries<>(ellipseList);
+        ellipseSeries.setColor(Color.red(1));
+        graph.addSeries(ellipseSeries);
+        //Ellipse -----
 
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dpList);
