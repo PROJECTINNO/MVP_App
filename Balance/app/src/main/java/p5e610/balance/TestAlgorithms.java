@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by mathiasloh on 14/2/17.
  */
 
-
+//TODO: @mathias do we need this??
 public final class TestAlgorithms {
     private TestAlgorithms(){
 

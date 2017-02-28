@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity.this.startActivity(loginIntent);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "YOU ARE NOT A USER", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.not_a_user, Toast.LENGTH_LONG).show();
                 }
             }
         });

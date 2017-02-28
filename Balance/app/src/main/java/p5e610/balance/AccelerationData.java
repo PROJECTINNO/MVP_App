@@ -119,8 +119,7 @@ public class AccelerationData {
 
     @Override
     public String toString() {
-        return "AccelerationData{" + coordinates +
-                '}';
+        return "AccelerationData{" + coordinates + '}';
     }
 }
 

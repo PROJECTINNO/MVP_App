@@ -42,7 +42,6 @@ public class Test {
         this.genericData = genericData;
     }
 
-
     public String getComments() {
         return comments;
     }
