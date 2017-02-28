@@ -392,7 +392,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         }
 
         LineGraphSeries<DataPoint> ellipseSeries = new LineGraphSeries<>(ellipseList);
-        ellipseSeries.setColor(Color.red(1));
+        ellipseSeries.setColor(Color.RED);
         graph.addSeries(ellipseSeries);
         //Ellipse -----
 

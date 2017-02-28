@@ -38,12 +38,10 @@ public class AccelerationDataTest {
     @Test
     public void testAddTimestamp() throws Exception {
         AccelerationData data = new AccelerationData();
-        ArrayList<Long> timestamp = new ArrayList<Long>();
         double d = 1.0;
         long l = (new Double(d)).longValue();
         data.add(1.0, 1.0, 1.0, l);
-        timestamp.add(l);
-        assertEquals(timestamp, data.get(0).getTimestamp());
+        assertEquals(l, data.get(0).getTimestamp());
     }
 
     @Test
