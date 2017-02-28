@@ -19,16 +19,12 @@ public class AccelerationData {
         Double z;
         long timestamp;
 
-        public Double getX() {
-            return x;
-        }
+        public Double getX() {return x;}
         public void setX(Double x) {
             this.x = x;
         }
 
-        public Double getY() {
-            return y;
-        }
+        public Double getY() {return y;}
         public void setY(Double y) {
             this.y = y;
         }
@@ -75,7 +71,7 @@ public class AccelerationData {
     }
 
     public ArrayList<Double> getAccX(){
-        ArrayList<Double> accx = new ArrayList<Double>();
+        ArrayList<Double> accx = new ArrayList<>();
         for (int i = 0; i <= this.size; i++){
             accx.add(this.get(i).getX());
         }
@@ -83,7 +79,7 @@ public class AccelerationData {
     }
 
     public ArrayList<Double> getAccY(){
-        ArrayList<Double> accy = new ArrayList<Double>();
+        ArrayList<Double> accy = new ArrayList<>();
         for (int i = 0; i <= this.size; i++){
             accy.add(this.get(i).getY());
         }
@@ -91,7 +87,7 @@ public class AccelerationData {
     }
 
     public ArrayList<Double> getAccZ(){
-        ArrayList<Double> accz = new ArrayList<Double>();
+        ArrayList<Double> accz = new ArrayList<>();
         for (int i = 0; i <= this.size; i++){
             accz.add(this.get(i).getZ());
         }

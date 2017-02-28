@@ -45,4 +45,22 @@ public class AccelerationDataTest {
         timestamp.add(l);
         assertEquals(timestamp, data.get(0).getTimestamp());
     }
+
+    @Test
+    public void testgetAccX() throws Exception {
+        AccelerationData data = new AccelerationData();
+        double d = 100.0;
+        long l = (new Double(d)).longValue();
+        AccelerationData.Coordinate a = new AccelerationData.Coordinate(1.0, 2.0, 3.0, l);
+        AccelerationData.Coordinate b = new AccelerationData.Coordinate(4.0, 5.0, 6.0, l);
+        AccelerationData.Coordinate c = new AccelerationData.Coordinate(7.0, 8.0, 9.0, l);
+        data.add(a);
+        data.add(b);
+        data.add(c);
+        ArrayList<Double> res = new ArrayList<Double>();
+        res.add(1.0);
+        res.add(4.0);
+        res.add(7.0);
+        assertEquals(res, data.getAccX());
+    }
 }

@@ -15,7 +15,6 @@ public class Doctor extends User {
 
     public void setPatientList(ArrayList<Patient> PatientList) {this.PatientList = PatientList;}
 
-
     @Override
     public String toString() {
         return "Doctor : PatientList = " + PatientList;
