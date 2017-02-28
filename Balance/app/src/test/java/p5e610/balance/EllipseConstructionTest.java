@@ -17,7 +17,7 @@ public class EllipseConstructionTest {
     @Test
     public void testMean() throws Exception {
         EllipseConstruction data = new EllipseConstruction();
-        ArrayList<Double> x = new ArrayList<Double>();
+        ArrayList<Double> x = new ArrayList<>();
         x.add(0.0);
         x.add(2.0);
         assert(EllipseConstruction.mean(x) == 1.0);
@@ -26,8 +26,8 @@ public class EllipseConstructionTest {
     @Test
     public void testCovariance() throws Exception {
         EllipseConstruction data = new EllipseConstruction();
-        ArrayList<Double> x = new ArrayList<Double>();
-        ArrayList<Double> y = new ArrayList<Double>();
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
         x.add(0.0);
         x.add(2.0);
         y.add(0.0);
@@ -38,8 +38,8 @@ public class EllipseConstructionTest {
     @Test
     public void testEigenvalues() throws Exception {
         EllipseConstruction data = new EllipseConstruction();
-        ArrayList<Double> x = new ArrayList<Double>();
-        ArrayList<Double> y = new ArrayList<Double>();
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
         x.add(0.0);
         x.add(2.0);
         y.add(0.0);
@@ -51,8 +51,8 @@ public class EllipseConstructionTest {
     @Test
     public void testMainDirection() throws Exception {
         EllipseConstruction data = new EllipseConstruction();
-        ArrayList<Double> x = new ArrayList<Double>();
-        ArrayList<Double> y = new ArrayList<Double>();
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
         x.add(0.0);
         x.add(2.0);
         y.add(0.0);
@@ -62,8 +62,8 @@ public class EllipseConstructionTest {
     }
     @Test
     public void testPercentage() throws Exception {
-        ArrayList<Double> x = new ArrayList<Double>();
-        ArrayList<Double> y = new ArrayList<Double>();
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
         x.add(0.0);
         x.add(1.0);
         x.add(-1.0);

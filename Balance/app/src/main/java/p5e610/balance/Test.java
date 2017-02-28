@@ -1,6 +1,7 @@
 package p5e610.balance;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -16,14 +17,18 @@ public class Test {
     private double[] ellipseData;
     private String comments;
     private double duration;
+    private Doctor doctor;
+    private Patient patient;
 
-    public Test(String position, AccelerationData genericData, String comments, double duration) {
+    public Test(String position, AccelerationData genericData, String comments, double duration, Doctor doctor, Patient patient) {
         this.date = new java.util.Date(); // getting current time, I hope
         this.position = position;
         this.genericData = genericData;
         this.ellipseData = new double[6];
         this.comments = comments;
         this.duration = duration;
+        this.patient = patient;
+        this.doctor = doctor;
     }
 
     public String getPosition() {
@@ -41,7 +46,6 @@ public class Test {
     public void setGenericData(AccelerationData genericData) {
         this.genericData = genericData;
     }
-
 
     public String getComments() {
         return comments;
@@ -62,7 +66,22 @@ public class Test {
     public void calculateEllipseData(){
         ArrayList<Double> accx = genericData.getAccX();
         ArrayList<Double> accy = genericData.getAccY();
+        int size = genericData.size();
 
+        for (int j = 0; j<6;j++) {
+
+            for (int i = j*(size/6); i < (j+1)*(size/6); i++) {
+                ellipseData[j] = EllipseConstruction.angle((ArrayList) accx.subList(j*(size/6), (j+1)*(size/6)), (ArrayList) accy.subList(j*(size/6), (j+1)*(size/6)));
+            }
+        }
     }
+
+    @Override
+    public String toString() {
+        return "Test of " + patient + " followed by " + doctor + ". \nDone on the " + date + ". \nThe position is" + position + ".\n" +
+                "The comments are " + comments + ".\n" +
+                "The ellipse angles every " + duration / 6 + " are " + Arrays.toString(ellipseData);
+    }
+
 }
 

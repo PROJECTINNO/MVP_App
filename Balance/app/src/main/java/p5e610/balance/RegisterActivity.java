@@ -43,10 +43,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                 DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
                 if(dh.usernameTaken(userName)) {
-                    Toast.makeText(getApplicationContext(), "USERNAME TAKEN", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
                 } else {
                     dh.addUser(firstName, lastName, userName, email, password, false);
-                    Intent continueIntent = new Intent(RegisterActivity.this, UserActivity.class);
+                    Intent continueIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     RegisterActivity.this.startActivity(continueIntent);
                     finish();
                 }
