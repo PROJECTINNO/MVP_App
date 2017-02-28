@@ -202,7 +202,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 android.opengl.Matrix.invertM(inv, 0, R, 0);
                 android.opengl.Matrix.multiplyMV(earthAcc, 0, inv, 0, deviceRelativeAcceleration, 0);
 
-                sensorData.addCoordinate(
+                sensorData.add(
                         (double)earthAcc[0],
                         (double)earthAcc[1],
                         (double)earthAcc[2],
@@ -334,245 +334,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
     }
 
-    private void openAcceleration() {
-        if (sensorData != null || sensorData.size() > 0) {
-            long t = sensorData.get(0).getTimestamp();
 
-            // --------- Setup MultiRenderer ----------------------------------- //
-            XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-            XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-            multiRenderer.setXLabels(0);
-            for (int i=1; i<100; i++){
-                multiRenderer.addXTextLabel(1000*i, Integer.toString(i));
-            }
-            multiRenderer.setYLabels(6);
-            multiRenderer.setLabelsColor(Color.BLACK);
-            multiRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00)); // transparent margins
-            multiRenderer.setChartTitle("Time vs Acceleration (x,y,z)");
-            multiRenderer.setXTitle("Sensor Data (s)");
-            multiRenderer.setYTitle("Values of Acceleration (m.s^-2)");
-            multiRenderer.setShowCustomTextGrid(true);
-            multiRenderer.setLegendTextSize(20);
-            multiRenderer.setLabelsTextSize(20);
-            multiRenderer.setAxisTitleTextSize(20);
-            multiRenderer.setChartTitleTextSize(40);
-            multiRenderer.setFitLegend(true);
-            multiRenderer.setLegendHeight(20);
-            multiRenderer.setZoomButtonsVisible(false);
-            multiRenderer.setXAxisMax(5000);
-            multiRenderer.setYAxisMax(5);
-            multiRenderer.setYLabelsColor(0, Color.BLACK);
-            multiRenderer.setXLabelsColor(Color.BLACK);
-            multiRenderer.setScale(3);
-            // --------- End Setup MultiRenderer --------------------------------//
-
-
-            // --------- Raw Acceleration Data ---------------------------------//
-            XYSeries xSeries = new XYSeries("X");
-            XYSeries ySeries = new XYSeries("Y");
-            XYSeries zSeries = new XYSeries("Z");
-
-            for (int i = 0; i < sensorData.size();i++) {
-                Coordinate coord = sensorData.get(i);
-                xSeries.add(coord.getTimestamp() - t, coord.getX());
-                ySeries.add(coord.getTimestamp() - t, coord.getY());
-                zSeries.add(coord.getTimestamp() - t, coord.getZ());
-            }
-
-            dataset.addSeries(xSeries);
-            dataset.addSeries(ySeries);
-            dataset.addSeries(zSeries);
-
-            XYSeriesRenderer xRenderer = new XYSeriesRenderer();
-            xRenderer.setColor(Color.RED);
-            xRenderer.setPointStyle(PointStyle.POINT);
-            xRenderer.setFillPoints(true);
-            xRenderer.setLineWidth(1);
-            xRenderer.setDisplayChartValues(false);
-
-            XYSeriesRenderer yRenderer = new XYSeriesRenderer();
-            yRenderer.setColor(Color.GREEN);
-            yRenderer.setPointStyle(PointStyle.POINT);
-            yRenderer.setFillPoints(true);
-            yRenderer.setLineWidth(1);
-            yRenderer.setDisplayChartValues(false);
-
-            XYSeriesRenderer zRenderer = new XYSeriesRenderer();
-            zRenderer.setColor(Color.BLUE);
-            zRenderer.setPointStyle(PointStyle.POINT);
-            zRenderer.setFillPoints(true);
-            zRenderer.setLineWidth(1);
-            zRenderer.setDisplayChartValues(false);
-
-            multiRenderer.addSeriesRenderer(xRenderer);
-            multiRenderer.addSeriesRenderer(yRenderer);
-            multiRenderer.addSeriesRenderer(zRenderer);
-            // --------- Raw Acceleration Data ---------------------------------//
-
-
-            // --------- Smooth Acceleration Data -----------------------------//
-            XYSeries accxSeries = new XYSeries("accxAverage");
-            XYSeries accySeries = new XYSeries("accyAverage");
-            XYSeries acczSeries = new XYSeries("acczAverage");
-
-            accx = sensorData.calcXAverage();
-            accy = sensorData.calcYAverage();
-            accz = sensorData.calcZAverage();
-
-
-            for (int i = 0;i < sensorData.size();i++){
-                Coordinate coord = sensorData.get(i);
-                accxSeries.add(coord.getTimestamp() - t, accx.get(i));
-                accySeries.add(coord.getTimestamp() - t, accy.get(i));
-                acczSeries.add(coord.getTimestamp() - t, accz.get(i));
-            }
-
-
-            dataset.addSeries(accxSeries);
-            dataset.addSeries(accySeries);
-            dataset.addSeries(acczSeries);
-
-
-            XYSeriesRenderer accxRenderer = new XYSeriesRenderer();
-            accxRenderer.setColor(Color.BLACK);
-            accxRenderer.setPointStyle(PointStyle.POINT);
-            accxRenderer.setFillPoints(true);
-            accxRenderer.setLineWidth(1);
-            accxRenderer.setDisplayChartValues(false);
-
-            XYSeriesRenderer accyRenderer = new XYSeriesRenderer();
-            accyRenderer.setColor(Color.CYAN);
-            accyRenderer.setPointStyle(PointStyle.POINT);
-            accyRenderer.setFillPoints(true);
-            accyRenderer.setLineWidth(1);
-            accyRenderer.setDisplayChartValues(false);
-
-            XYSeriesRenderer acczRenderer = new XYSeriesRenderer();
-            acczRenderer.setColor(Color.MAGENTA);
-            acczRenderer.setPointStyle(PointStyle.POINT);
-            acczRenderer.setFillPoints(true);
-            acczRenderer.setLineWidth(1);
-            acczRenderer.setDisplayChartValues(false);
-
-            multiRenderer.addSeriesRenderer(accxRenderer);
-            multiRenderer.addSeriesRenderer(accyRenderer);
-            multiRenderer.addSeriesRenderer(acczRenderer);
-            // --------- Smooth Acceleration Data -----------------------------//
-
-
-            // --------- Plotting the graphs ---------------------------------//
-            mChart = ChartFactory.getLineChartView(getBaseContext(), dataset,
-                    multiRenderer);
-
-            layout.addView(mChart);
-            // --------- End Plotting the graphs -----------------------------//
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void openComparison() {
-        if (sensorData != null || sensorData.size() > 0) {
-            // --------- Setup MultiRenderer ----------------------------------- //
-            XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-            XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-            multiRenderer.setXLabels(6);
-
-            multiRenderer.setYLabels(6);
-            multiRenderer.setLabelsColor(Color.BLACK);
-            multiRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00)); // transparent margins
-            multiRenderer.setChartTitle("x Acceleration vs y Acceleration");
-            multiRenderer.setXTitle("x Acceleration (m.s^-2)");
-            multiRenderer.setYTitle("y Acceleration (m.s^-2)");
-            multiRenderer.setShowCustomTextGrid(true);
-            multiRenderer.setLegendTextSize(20);
-            multiRenderer.setLabelsTextSize(20);
-            multiRenderer.setAxisTitleTextSize(20);
-            multiRenderer.setChartTitleTextSize(40);
-            multiRenderer.setFitLegend(true);
-            multiRenderer.setLegendHeight(20);
-            multiRenderer.setZoomButtonsVisible(false);
-            multiRenderer.setXAxisMax(5);
-            multiRenderer.setYAxisMax(5);
-            multiRenderer.setYLabelsColor(0, Color.BLACK);
-            multiRenderer.setXLabelsColor(Color.BLACK);
-            multiRenderer.setScale(3);
-            multiRenderer.setPointSize(40);
-
-            // --------- End Setup MultiRenderer --------------------------------//
-
-            // --------- Raw Acceleration Data ---------------------------------//
-            XYSeries xySeries = new XYSeries("raw x-y");
-
-            for (int i = 0; i < sensorData.size(); i++) {
-                Coordinate coord = sensorData.get(i);
-                xySeries.add(coord.getX(), coord.getY());
-            }
-
-            dataset.addSeries(xySeries);
-
-            XYSeriesRenderer xyRenderer = new XYSeriesRenderer();
-            xyRenderer.setColor(Color.RED);
-            xyRenderer.setPointStyle(PointStyle.POINT);
-            xyRenderer.setFillPoints(true);
-            xyRenderer.setLineWidth(1);
-            xyRenderer.setDisplayChartValues(false);
-
-
-            multiRenderer.addSeriesRenderer(xyRenderer);
-            // --------- Raw Acceleration Data ---------------------------------//
-
-
-            // --------- Smooth Acceleration Data -----------------------------//
-            XYSeries accxySeries = new XYSeries("accxAverage");
-
-            accx = sensorData.calcXAverage();
-            accy = sensorData.calcYAverage();
-
-            for (int i = 0; i < sensorData.size(); i++) {
-                accxySeries.add(accx.get(i), accy.get(i));
-            }
-
-
-            dataset.addSeries(accxySeries);
-
-            XYSeriesRenderer accxyRenderer = new XYSeriesRenderer();
-            accxyRenderer.setColor(Color.BLACK);
-            accxyRenderer.setPointStyle(PointStyle.POINT);
-            accxyRenderer.setFillPoints(true);
-            accxyRenderer.setLineWidth(1);
-            accxyRenderer.setDisplayChartValues(false);
-
-
-            multiRenderer.addSeriesRenderer(accxyRenderer);
-            // --------- Smooth Acceleration Data -----------------------------//
-
-            // --------- Plotting the graphs ---------------------------------//
-//            mChart = ChartFactory.getLineChartView(getBaseContext(), dataset,
-//                    multiRenderer);
-//
-//            layout.addView(mChart);
-            // --------- End Plotting the graphs -----------------------------//
-
-
-            // --------- Plotting the drawing ---------------------------------//
-            ArrayList<Float> points = new ArrayList<Float>();
-            for(int i = 0; i < accx.size()-1; i+=2){
-                points.add(Float.parseFloat(Double.toString(accx.get(i))));
-                points.add(Float.parseFloat(Double.toString(accy.get(i))));
-                points.add(Float.parseFloat(Double.toString(accx.get(i+1))));
-                points.add(Float.parseFloat(Double.toString(accy.get(i+1))));
-            }
-
-            float res[] = new float[accx.size()*2];
-//            for(int i = 0; i<points.size();i++){
-//                res[i] = points.get(i);
-//                System.out.println(res[i]);
-//            }
-
-
-            // --------- End Plotting the drawing -----------------------------//
-        }
-    }
 
 
     /**
@@ -580,8 +342,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
      */
     private void seeGraph(){
         graph.removeAllSeries();
-        accx = sensorData.calcXAverage();
-        accy = sensorData.calcYAverage();
+        accx = sensorData.getAccX();
+        accy = sensorData.getAccY();
         DataPoint[] dpList = new DataPoint[accx.size()];
         double[] dpList_test_x = new double[accx.size()];
         double[] dpList_test_y = new double[accx.size()];
@@ -650,9 +412,9 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//
-        accx = sensorData.calcXAverage();
-        accy = sensorData.calcYAverage();
-        accz = sensorData.calcZAverage();
+        accx = sensorData.getAccX();
+        accy = sensorData.getAccY();
+        accz = sensorData.getAccZ();
         // --------- End reinitialize ---------------------------//
 
         // --------- Setup Writing ------------------------------//
