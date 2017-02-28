@@ -2,7 +2,6 @@ package p5e610.balance;
 
 import java.util.*;
 
-
 public class Ellipseconstruction {
 
     public static double mean (ArrayList <Double> X) {
@@ -92,6 +91,7 @@ public class Ellipseconstruction {
     }
 
 }
+
 
 
 
