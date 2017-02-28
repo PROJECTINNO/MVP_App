@@ -3,7 +3,7 @@ package p5e610.balance;
 import java.util.*;
 
 
-public class Ellipseconstruction {
+public class EllipseConstruction {
 
     public static double mean (ArrayList <Double> X) {
         double fantasticresult  = 0.0;

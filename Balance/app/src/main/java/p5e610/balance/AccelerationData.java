@@ -1,6 +1,9 @@
 package p5e610.balance;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Cecile on 07/02/2017.
@@ -8,95 +11,181 @@ import java.util.ArrayList;
  */
 
 public class AccelerationData {
+    private Double xSum = 0.0;
+    private Double ySum = 0.0;
+    private Double zSum = 0.0;
+    private int size = 0;
 
-    private ArrayList<Long> timestamp; //the array of the time at which the data is taken
-    private ArrayList<Double> x; //array of x acceleration
-    private ArrayList<Double> y; //array of y acceleration
-    private ArrayList<Double> z; //array of z acceleration
+    public static class Coordinate {
+        Double x;
+        Double y;
+        Double z;
+        long timestamp;
 
-    //Constructor having all the data
-    public AccelerationData(ArrayList<Long> timestamp, ArrayList<Double> x, ArrayList<Double> y, ArrayList<Double> z) {
-        this.timestamp = timestamp;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        public Double getX() {
+            return x;
+        }
+        public void setX(Double x) {
+            this.x = x;
+        }
+
+        public Double getY() {
+            return y;
+        }
+        public void setY(Double y) {
+            this.y = y;
+        }
+
+        public Double getZ() {
+            return z;
+        }
+        public void setZ(Double z) {
+            this.z = z;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("x: %d, y: %d, z: %d, timestamp: %s", x, y, z, new Date(timestamp));
+        }
+
+        public Coordinate(Double x, Double y, Double z, long timestamp) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.timestamp = timestamp;
+        }
     }
 
-    //Empty constuctor
+    private List<Coordinate> coordinates;
+
     public AccelerationData() {
-        this.timestamp = new ArrayList<Long>();
-        this.x = new ArrayList<Double>();
-        this.y = new ArrayList<Double>();
-        this.z = new ArrayList<Double>();
+        this.coordinates = new ArrayList<Coordinate>();
     }
 
-    /**
-     * getters and setters
-     */
-
-    public ArrayList<Long> getTimestamp() {
-        return timestamp;
+    public Coordinate get(int i) {
+        return coordinates.get(i);
     }
 
-    public void setTimestamp(ArrayList<Long> timestamp) {
-        this.timestamp = timestamp;
+    public int size() {
+        return size;
     }
 
-    public ArrayList<Double> getX() {
-        return x;
+    public static double xAverage(int i, int n, List<Coordinate> ls) {
+        double sum = 0;
+
+        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
+            sum += ls.get(i + j).getX();
+        }
+        return sum/n;
     }
 
-    public void setX(ArrayList<Double> x) {
-        this.x = x;
+    public static double yAverage(int i, int n, List<Coordinate> ls) {
+        double sum = 0;
+
+        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
+            sum += ls.get(i + j).getY();
+        }
+        return sum/n;
     }
 
-    public ArrayList<Double> getY() {
-        return y;
+    public static double zAverage(int i, int n, List<Coordinate> ls) {
+        double sum = 0;
+
+        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
+            sum += ls.get(i + j).getZ();
+        }
+        return sum/n;
     }
 
-    public void setY(ArrayList<Double> y) {
-        this.y = y;
+
+    public ArrayList<Double> calcXAverage() {
+        int n = coordinates.size();
+        int N = 9;
+        ArrayList<Double> acc = new ArrayList<Double>();
+
+        for (int i = 0; i < n; i++) {
+            Coordinate coord = coordinates.get(i);
+            if (i < (N - 1) / 2) {
+                acc.add(coord.getX());
+            } else if (i > n - 1 - ((N - 1) / 2)) {
+                acc.add(coord.getX());
+            } else {
+                acc.add(xAverage(i, N, coordinates));
+            }
+        }
+        return acc;
     }
 
-    public ArrayList<Double> getZ() {
-        return z;
+    public ArrayList<Double> calcYAverage() {
+        int n = coordinates.size();
+        int N = 9;
+        ArrayList<Double> acc = new ArrayList<Double>();
+
+        for (int i = 0; i < n; i++) {
+            Coordinate coord = coordinates.get(i);
+            if (i < (N - 1) / 2) {
+                acc.add(coord.getY());
+            } else if (i > n - 1 - ((N - 1) / 2)) {
+                acc.add(coord.getY());
+            } else {
+                acc.add(yAverage(i, N, coordinates));
+            }
+        }
+        return acc;
     }
 
-    public void setZ(ArrayList<Double> z) {
-        this.z = z;
+    public ArrayList<Double> calcZAverage() {
+        int n = coordinates.size();
+        int N = 9;
+        ArrayList<Double> acc = new ArrayList<Double>();
+
+        for (int i = 0; i < n; i++) {
+            Coordinate coord = coordinates.get(i);
+            if (i < (N - 1) / 2) {
+                acc.add(coord.getZ());
+            } else if (i > n - 1 - ((N - 1) / 2)) {
+                acc.add(coord.getZ());
+            } else {
+                acc.add(zAverage(i, N, coordinates));
+            }
+        }
+        return acc;
     }
 
-    public void addX(double data){
-        ArrayList<Double> old = this.getX();
-        old.add(data);
-        this.setX(old);
+//    public List<Coordinate> getCoordinates() {
+//        return Collections.unmodifiableList(coordinates);
+//    }
+
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public void addY(double data){
-        ArrayList<Double> old = this.getY();
-        old.add(data);
-        this.setY(old);
+    public void addCoordinate(Coordinate data){
+        xSum += data.getX();
+        ySum += data.getY();
+        zSum += data.getZ();
+
+        coordinates.add(data);
     }
 
-    public void addZ(double data){
-        ArrayList<Double> old = this.getZ();
-        old.add(data);
-        this.setZ(old);
-    }
+    public void addCoordinate(Double x, Double y, Double z, long timestamp){
+        xSum += x;
+        ySum += y;
+        zSum += z;
 
-    public void addTimestamp(long data){
-        ArrayList<Long> old = this.getTimestamp();
-        old.add(data);
-        this.setTimestamp(old);
+        coordinates.add(new Coordinate(x, y, z, timestamp));
     }
 
     @Override
     public String toString() {
-        return "AccelerationData{" +
-                "timestamp=" + timestamp +
-                ", x=" + x +
-                ", y=" + y +
-                ", z=" + z +
+        return "AccelerationData{" + coordinates +
                 '}';
     }
 }

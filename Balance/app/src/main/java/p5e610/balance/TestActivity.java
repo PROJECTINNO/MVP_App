@@ -61,8 +61,7 @@ import p5e610.graphview.LegendRenderer;
 import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
 import p5e610.graphview.series.Series;
-import p5e610.balance.Ellipseconstruction;
-
+import p5e610.balance.AccelerationData.Coordinate;
 
 public class TestActivity extends Activity implements SensorEventListener, OnClickListener {
     NotificationManager notificationManager;
@@ -109,9 +108,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorData = new AccelerationData();
         verifyStoragePermissions(this);
-        accx = new ArrayList<Double>();
-        accy = new ArrayList<Double>();
-        accz = new ArrayList<Double>();
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
@@ -129,7 +125,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         btnStop.setOnClickListener(this);
         btnStart.setEnabled(true);
         btnAcceleration.setEnabled(false);
-        if (sensorData == null || sensorData.getX().size() == 0) {
+        if (sensorData == null || sensorData.size() == 0) {
             btnUpload.setEnabled(false);
         }
         layout.removeAllViews();
@@ -205,10 +201,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 float[] inv = new float[16];
                 android.opengl.Matrix.invertM(inv, 0, R, 0);
                 android.opengl.Matrix.multiplyMV(earthAcc, 0, inv, 0, deviceRelativeAcceleration, 0);
-                sensorData.addX(earthAcc[0]);
-                sensorData.addY(earthAcc[1]);
-                sensorData.addZ(earthAcc[2]);
-                sensorData.addTimestamp(timestamp);
+
+                sensorData.addCoordinate(
+                        (double)earthAcc[0],
+                        (double)earthAcc[1],
+                        (double)earthAcc[2],
+                        timestamp);
+
                 // ----- If we want absolute acceleration -------- //
             }
             else if (event.sensor.getType() == Sensor.TYPE_GRAVITY){
@@ -336,8 +335,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
 
     private void openAcceleration() {
-        if (sensorData != null || sensorData.getX().size() > 0) {
-            long t = sensorData.getTimestamp().get(0);
+        if (sensorData != null || sensorData.size() > 0) {
+            long t = sensorData.get(0).getTimestamp();
 
             // --------- Setup MultiRenderer ----------------------------------- //
             XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -373,21 +372,12 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             XYSeries ySeries = new XYSeries("Y");
             XYSeries zSeries = new XYSeries("Z");
 
-            for (int i = 0; i < sensorData.getX().size();i++){
-                xSeries.add(sensorData.getTimestamp().get(i) - t, sensorData.getX().get(i));
-                ySeries.add(sensorData.getTimestamp().get(i) - t, sensorData.getY().get(i));
-                zSeries.add(sensorData.getTimestamp().get(i) - t, sensorData.getZ().get(i));
+            for (int i = 0; i < sensorData.size();i++) {
+                Coordinate coord = sensorData.get(i);
+                xSeries.add(coord.getTimestamp() - t, coord.getX());
+                ySeries.add(coord.getTimestamp() - t, coord.getY());
+                zSeries.add(coord.getTimestamp() - t, coord.getZ());
             }
-
-
-//            ArrayList<Double> angles = new ArrayList<Double>();
-//            for (int i = 0; i < sensorData.getX().size();i++){
-//                angles.add(Calculate.calculateAngle(i,sensorData.getX(), sensorData.getY()));
-//            }
-//            for (int i = 0; i < sensorData.getX().size();i++){
-//                System.out.println(angles.get(i));
-//            }
-
 
             dataset.addSeries(xSeries);
             dataset.addSeries(ySeries);
@@ -425,15 +415,16 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             XYSeries accySeries = new XYSeries("accyAverage");
             XYSeries acczSeries = new XYSeries("acczAverage");
 
-            accx = TestAlgorithms.calculateAverage(sensorData.getX());
-            accy = TestAlgorithms.calculateAverage(sensorData.getY());
-            accz = TestAlgorithms.calculateAverage(sensorData.getZ());
+            accx = sensorData.calcXAverage();
+            accy = sensorData.calcYAverage();
+            accz = sensorData.calcZAverage();
 
 
-            for (int i = 0;i < sensorData.getX().size();i++){
-                accxSeries.add(sensorData.getTimestamp().get(i) -t, accx.get(i));
-                accySeries.add(sensorData.getTimestamp().get(i) -t, accy.get(i));
-                acczSeries.add(sensorData.getTimestamp().get(i) -t, accz.get(i));
+            for (int i = 0;i < sensorData.size();i++){
+                Coordinate coord = sensorData.get(i);
+                accxSeries.add(coord.getTimestamp() - t, accx.get(i));
+                accySeries.add(coord.getTimestamp() - t, accy.get(i));
+                acczSeries.add(coord.getTimestamp() - t, accz.get(i));
             }
 
 
@@ -480,7 +471,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void openComparison() {
-        if (sensorData != null || sensorData.getX().size() > 0) {
+        if (sensorData != null || sensorData.size() > 0) {
             // --------- Setup MultiRenderer ----------------------------------- //
             XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
             XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
@@ -512,9 +503,9 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             // --------- Raw Acceleration Data ---------------------------------//
             XYSeries xySeries = new XYSeries("raw x-y");
 
-
-            for (int i = 0; i < sensorData.getX().size(); i++) {
-                xySeries.add(sensorData.getX().get(i), sensorData.getY().get(i));
+            for (int i = 0; i < sensorData.size(); i++) {
+                Coordinate coord = sensorData.get(i);
+                xySeries.add(coord.getX(), coord.getY());
             }
 
             dataset.addSeries(xySeries);
@@ -534,13 +525,10 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             // --------- Smooth Acceleration Data -----------------------------//
             XYSeries accxySeries = new XYSeries("accxAverage");
 
-            accx = new ArrayList<Double>();
-            accy = new ArrayList<Double>();
-            accx = TestAlgorithms.calculateAverage(sensorData.getX());
-            accy = TestAlgorithms.calculateAverage(sensorData.getY());
+            accx = sensorData.calcXAverage();
+            accy = sensorData.calcYAverage();
 
-
-            for (int i = 0; i < sensorData.getX().size(); i++) {
+            for (int i = 0; i < sensorData.size(); i++) {
                 accxySeries.add(accx.get(i), accy.get(i));
             }
 
@@ -592,10 +580,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
      */
     private void seeGraph(){
         graph.removeAllSeries();
-        accx = new ArrayList<Double>();
-        accy = new ArrayList<Double>();
-        accx = TestAlgorithms.calculateAverage(sensorData.getX());
-        accy = TestAlgorithms.calculateAverage(sensorData.getY());
+        accx = sensorData.calcXAverage();
+        accy = sensorData.calcYAverage();
         DataPoint[] dpList = new DataPoint[accx.size()];
         double[] dpList_test_x = new double[accx.size()];
         double[] dpList_test_y = new double[accx.size()];
@@ -628,13 +614,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         ArrayList<Double> t = new ArrayList<Double>(); //parametric angle
         ArrayList<Double> x = new ArrayList<Double>(); // absisse
         ArrayList<Double> y = new ArrayList<Double>(); //ordonnée
-        double x0 = Ellipseconstruction.mean(accx);
-        double y0 = Ellipseconstruction.mean(accy);
-        double theta = Ellipseconstruction.angle(accx,accy);
-        double a = Ellipseconstruction.valeurspropres(accx,accy)[0];
-        double b = Ellipseconstruction.valeurspropres(accx,accy)[1];
-        for (int i = 0; i<100;i++){
-            t.add(2.0*Math.PI*i/100.0);
+        double x0 = EllipseConstruction.mean(accx);
+        double y0 = EllipseConstruction.mean(accy);
+        double theta = EllipseConstruction.angle(accx,accy);
+        double a = EllipseConstruction.valeurspropres(accx,accy)[0];
+        double b = EllipseConstruction.valeurspropres(accx,accy)[1];
+        for (int i = 0; i < 100; i++){
+            t.add(2.0 * Math.PI * i/100.0);
             x.add(x0 + a*Math.cos(t.get(i))*Math.cos(theta) - b*Math.sin(t.get(i))*Math.sin(theta));
             y.add(y0 + a*Math.cos(t.get(i))*Math.sin(theta) - b*Math.sin(t.get(i))*Math.cos(theta));
         }
@@ -663,9 +649,9 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//
-        accx = TestAlgorithms.calculateAverage(sensorData.getX());
-        accy = TestAlgorithms.calculateAverage(sensorData.getY());
-        accz = TestAlgorithms.calculateAverage(sensorData.getZ());
+        accx = sensorData.calcXAverage();
+        accy = sensorData.calcYAverage();
+        accz = sensorData.calcZAverage();
         // --------- End reinitialize ---------------------------//
 
         // --------- Setup Writing ------------------------------//
@@ -689,15 +675,15 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         String[] data = "X,Y,Z, SMOOTHX, SMOOTHY, SMOOTHZ, t".split(",");
         writer.writeNext(data);
 
-        for (int i = 0; i < sensorData.getX().size(); i++){
+        for (int i = 0; i < sensorData.size(); i++){
             String[] entry = {
-                    Double.toString(sensorData.getX().get(i)),
-                    Double.toString(sensorData.getY().get(i)),
-                    Double.toString(sensorData.getZ().get(i)),
+                    Double.toString(sensorData.get(i).getX()),
+                    Double.toString(sensorData.get(i).getY()),
+                    Double.toString(sensorData.get(i).getZ()),
                     Double.toString(accx.get(i)),
                     Double.toString(accy.get(i)),
                     Double.toString(accz.get(i)),
-                    Double.toString(sensorData.getTimestamp().get(i)- sensorData.getTimestamp().get(0))};
+                    Double.toString(sensorData.get(i).getTimestamp() - sensorData.get(0).getTimestamp())};
             writer.writeNext(entry);
         }
 
