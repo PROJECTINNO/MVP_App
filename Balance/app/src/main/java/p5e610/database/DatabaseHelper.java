@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,26 +78,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(USER_TABLE_NAME, null, row);
     }
 
+    private void checkDatabaseConnection(SQLiteDatabase db) throws SQLiteCantOpenDatabaseException {
+        if (db == null) {
+            throw new SQLiteCantOpenDatabaseException();
+        }
+    }
+
     public boolean usernameTaken(String username) {
         return (queryUser(username) != null);
     }
 
     public boolean passwordMatches(String username, String password) {
         SQLiteDatabase db = sInstance.getWritableDatabase();
+        checkDatabaseConnection(db);
 
         String selection = USER_PASSWORD_COL + "=? AND " + USER_USERNAME_COL + "=?";
         Integer pwHash = password.hashCode();
         String[] selectionArgs = {pwHash.toString(), username};
 
-        if (db == null) {
-            throw new SQLiteCantOpenDatabaseException();
-        }
-
-        String groupBy, having, orderBy;
-        groupBy = having = orderBy = null;
         String limit = "1";
-
-        Cursor c = db.query(USER_TABLE_NAME, USER_COLUMNS, selection, selectionArgs, groupBy, having, orderBy, limit);
+        Cursor c = db.query(USER_TABLE_NAME, USER_COLUMNS, selection, selectionArgs, null, null, null, limit);
         boolean notEmpty = c.moveToFirst();
 
         c.close();
@@ -107,27 +106,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private User queryUser(String selection, String[] selectionArgs) {
         SQLiteDatabase db = sInstance.getWritableDatabase();
+        checkDatabaseConnection(db);
 
-        if (db == null) {
-            throw new SQLiteCantOpenDatabaseException();
-        }
-
-        String groupBy, having, orderBy;
-        groupBy = having = orderBy = null;
         String limit = "1";
+        Cursor c = db.query(USER_TABLE_NAME, USER_COLUMNS, selection, selectionArgs, null, null, null, limit);
 
-        Cursor c = db.query(USER_TABLE_NAME, USER_COLUMNS, selection, selectionArgs, groupBy, having, orderBy, limit);
+        return getUserFromCursor(c);
+    }
+
+    private User getUserFromCursor(Cursor cursor) {
         Map<String,String> res = new HashMap<>();
-        if(!c.moveToFirst()) {
-            c.close();
+        if(!cursor.moveToFirst()) {
+            cursor.close();
             return null;
         }
         for(String col : USER_COLUMNS) {
-            int i = c.getColumnIndex(col);
-            res.put(col, c.getString(i));
+            int i = cursor.getColumnIndex(col);
+            res.put(col, cursor.getString(i));
         }
 
-        c.close();
+        cursor.close();
         return new User(res.get(USER_NAME_COL), res.get(USER_SURNAME_COL), res.get(USER_USERNAME_COL), res.get(USER_EMAIL_COL));
     }
 
@@ -165,9 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

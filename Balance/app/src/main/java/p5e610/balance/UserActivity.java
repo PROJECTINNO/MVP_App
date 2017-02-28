@@ -1,8 +1,11 @@
 package p5e610.balance;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,12 +16,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView h1;
     private TextView h2;
+    private RelativeLayout layout;
+    private ListView listView;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> listTests = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +64,10 @@ public class UserActivity extends AppCompatActivity
        View hView = navigationView.getHeaderView(0);
         h1 = (TextView) hView.findViewById(R.id.welcome_header1);
         h2 = (TextView) hView.findViewById(R.id.welcome_header2);
-
+        listView  = (ListView) findViewById(R.id.list_container);
         h1.setText("Welcome");
         h2.setText("Balance App 1.0");
+
     }
 
     @Override
@@ -92,22 +108,55 @@ public class UserActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            logout();
+        } else if (id == R.id.nav_test) {
+            showTests();
+        } else if (id == R.id.nav_results) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showTests() {
+        listTests = new ArrayList<String>();
+        listTests.add("BESS");
+        listTests.add("Sit Up & Go");
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTests);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String item = listTests.get(position);
+                if (item == "BESS"){
+                    Intent continueIntent = new Intent(UserActivity.this, TestActivity.class);
+                    UserActivity.this.startActivity(continueIntent);
+                }
+            }
+        });
+    }
+
+    public void logout(){
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Do you wish to log out?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent logoutIntent = new Intent(UserActivity.this, LoginActivity.class);
+                        UserActivity.this.startActivity(logoutIntent);
+                        finish();                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+
     }
 }
