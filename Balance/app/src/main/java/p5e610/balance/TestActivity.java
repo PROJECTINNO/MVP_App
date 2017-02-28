@@ -335,8 +335,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
 
 
-
-
     /**
      * This function enables to visualize the graph with graphview
      */
@@ -422,6 +420,9 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy-HH:mm:ss");
         String fileName = "AccelData-" + dateFormat.format(date) + ".csv";
+
+//        String folder_name = "Balance Data";
+//        File folder = new File(baseDir, folder_name);
 
         String filePath = baseDir + File.separator + fileName;
         File f = new File(filePath);

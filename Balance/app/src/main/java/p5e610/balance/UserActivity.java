@@ -109,7 +109,7 @@ public class UserActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
@@ -159,6 +159,10 @@ public class UserActivity extends AppCompatActivity
                         UserActivity.this.startActivity(logoutIntent);
                         finish();                    }})
                 .setNegativeButton(android.R.string.no, null).show();
+
+    }
+
+    public void showResults(){
 
     }
 }
