@@ -23,6 +23,7 @@ public class AccelerationDataTest {
     }
 
     @Test
+    //public void isAddTimestampValid() throws Exception {
     public void addtimestamp_is_correct() throws Exception {
         AccelerationData data = new AccelerationData();
         ArrayList<Long> timestamp = new ArrayList<Long>();

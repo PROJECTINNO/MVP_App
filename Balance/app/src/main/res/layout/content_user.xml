@@ -13,4 +13,12 @@
     tools:context="p5e610.balance.UserActivity"
     tools:showIn="@layout/app_bar_user">
 
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+
+
 </RelativeLayout>

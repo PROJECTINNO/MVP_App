@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
                 if(dh.passwordMatches(etUsername.getText().toString(), etPassword.getText().toString())) {
                     LoginActivity.this.startActivity(loginIntent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "YOU ARE NOT A USER", Toast.LENGTH_LONG).show();
                 }
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 LoginActivity.this.startActivity(registerIntent);
+                finish();
             }
         });
 
