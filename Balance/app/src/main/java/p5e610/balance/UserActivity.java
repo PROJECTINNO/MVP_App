@@ -47,7 +47,7 @@ public class UserActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Feature coming soon!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, R.string.feature_coming, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -147,8 +147,8 @@ public class UserActivity extends AppCompatActivity
 
     public void logout(){
         new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Do you wish to log out?")
+                .setTitle(R.string.logout_title)
+                .setMessage(R.string.logout_question)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

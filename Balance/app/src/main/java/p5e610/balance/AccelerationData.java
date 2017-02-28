@@ -11,9 +11,6 @@ import java.util.List;
  */
 
 public class AccelerationData {
-    private Double xSum = 0.0;
-    private Double ySum = 0.0;
-    private Double zSum = 0.0;
     private int size = 0;
 
     public static class Coordinate {
@@ -79,7 +76,7 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccX(){
         ArrayList<Double> accx = new ArrayList<Double>();
-        for (int i = 0; i<=this.size;i++){
+        for (int i = 0; i <= this.size; i++){
             accx.add(this.get(i).getX());
         }
         return accx;
@@ -87,7 +84,7 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccY(){
         ArrayList<Double> accy = new ArrayList<Double>();
-        for (int i = 0; i<=this.size;i++){
+        for (int i = 0; i <= this.size; i++){
             accy.add(this.get(i).getY());
         }
         return accy;
@@ -95,32 +92,23 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccZ(){
         ArrayList<Double> accz = new ArrayList<Double>();
-        for (int i = 0; i<=this.size;i++){
+        for (int i = 0; i <= this.size; i++){
             accz.add(this.get(i).getZ());
         }
         return accz;
     }
 
     public void add(Coordinate data){
-        xSum += data.getX();
-        ySum += data.getY();
-        zSum += data.getZ();
-
         coordinates.add(data);
     }
 
     public void add(Double x, Double y, Double z, long timestamp){
-        xSum += x;
-        ySum += y;
-        zSum += z;
-
         coordinates.add(new Coordinate(x, y, z, timestamp));
     }
 
     @Override
     public String toString() {
-        return "AccelerationData{" + coordinates +
-                '}';
+        return "AccelerationData{" + coordinates + '}';
     }
 }
 
