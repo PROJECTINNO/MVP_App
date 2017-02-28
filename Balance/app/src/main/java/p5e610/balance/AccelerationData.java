@@ -159,15 +159,7 @@ public class AccelerationData {
         return acc;
     }
 
-//    public List<Coordinate> getCoordinates() {
-//        return Collections.unmodifiableList(coordinates);
-//    }
-
-    public void setCoordinates(List<Coordinate> coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public void addCoordinate(Coordinate data){
+    public void add(Coordinate data){
         xSum += data.getX();
         ySum += data.getY();
         zSum += data.getZ();
@@ -175,7 +167,7 @@ public class AccelerationData {
         coordinates.add(data);
     }
 
-    public void addCoordinate(Double x, Double y, Double z, long timestamp){
+    public void add(Double x, Double y, Double z, long timestamp){
         xSum += x;
         ySum += y;
         zSum += z;

@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-import p5e610.balance.Ellipseconstruction;
+import p5e610.balance.EllipseConstruction;
 
 /**
  * Created by Julien on 14/02/2017.
@@ -15,30 +15,29 @@ import p5e610.balance.Ellipseconstruction;
 
 public class EllipseConstructionTest {
     @Test
-    public void mean_is_correct() throws Exception {
-        Ellipseconstruction data = new Ellipseconstruction();
+    public void testMean() throws Exception {
+        EllipseConstruction data = new EllipseConstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         x.add(0.0);
         x.add(2.0);
-        assert(Ellipseconstruction.mean(x) == 1.0);
+        assert(EllipseConstruction.mean(x) == 1.0);
     }
 
     @Test
-    public void covar_is_correct() throws Exception {
-        Ellipseconstruction data = new Ellipseconstruction();
+    public void testCovariance() throws Exception {
+        EllipseConstruction data = new EllipseConstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
-        //Double[] vectp = {1.0, 0.0};
         x.add(0.0);
         x.add(2.0);
         y.add(0.0);
         y.add(4.0);
-        assert(Ellipseconstruction.covar(x,y) == 4.0);
+        assert(EllipseConstruction.covar(x,y) == 4.0);
     }
 
     @Test
-    public void eigenvalues_is_correct() throws Exception {
-        Ellipseconstruction data = new Ellipseconstruction();
+    public void testEigenvalues() throws Exception {
+        EllipseConstruction data = new EllipseConstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
         x.add(0.0);
@@ -50,8 +49,8 @@ public class EllipseConstructionTest {
     }
 
     @Test
-    public void maindirection_is_correct() throws Exception {
-        Ellipseconstruction data = new Ellipseconstruction();
+    public void testMainDirection() throws Exception {
+        EllipseConstruction data = new EllipseConstruction();
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
         x.add(0.0);
@@ -62,7 +61,7 @@ public class EllipseConstructionTest {
         assert(Arrays.equals(data.mainDirection(x,y),vp));
     }
     @Test
-    public void percentage_is_correct() throws Exception {
+    public void testPercentage() throws Exception {
         ArrayList<Double> x = new ArrayList<Double>();
         ArrayList<Double> y = new ArrayList<Double>();
         x.add(0.0);
@@ -75,7 +74,7 @@ public class EllipseConstructionTest {
         Double a = 2.0;
         Double b = 1.0;
         Double p = 1.0;
-        System.out.println(Ellipseconstruction.percentage(x,y,a,b,theta,p));
-        assert(Ellipseconstruction.percentage(x,y,a,b,theta,p)== 1.0);
+        System.out.println(EllipseConstruction.percentage(x,y,a,b,theta,p));
+        assert(EllipseConstruction.percentage(x,y,a,b,theta,p)== 1.0);
     }
 }
