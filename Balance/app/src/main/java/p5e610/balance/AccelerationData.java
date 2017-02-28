@@ -72,7 +72,7 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccX(){
         ArrayList<Double> accx = new ArrayList<>();
-        for (int i = 0; i <= this.size; i++){
+        for (int i = 0; i < this.coordinates.size(); i++){
             accx.add(this.get(i).getX());
         }
         return accx;
@@ -80,7 +80,7 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccY(){
         ArrayList<Double> accy = new ArrayList<>();
-        for (int i = 0; i <= this.size; i++){
+        for (int i = 0; i < this.coordinates.size(); i++){
             accy.add(this.get(i).getY());
         }
         return accy;
@@ -88,7 +88,7 @@ public class AccelerationData {
 
     public ArrayList<Double> getAccZ(){
         ArrayList<Double> accz = new ArrayList<>();
-        for (int i = 0; i <= this.size; i++){
+        for (int i = 0; i < this.coordinates.size(); i++){
             accz.add(this.get(i).getZ());
         }
         return accz;
