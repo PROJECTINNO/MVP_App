@@ -57,7 +57,7 @@ public class AccelerationDataTest {
         data.add(a);
         data.add(b);
         data.add(c);
-        ArrayList<Double> res = new ArrayList<Double>;
+        ArrayList<Double> res = new ArrayList<Double>();
         res.add(1.0);
         res.add(4.0);
         res.add(7.0);
