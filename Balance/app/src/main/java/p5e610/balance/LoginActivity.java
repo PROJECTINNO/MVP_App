@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
@@ -60,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                 Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
                 DatabaseHelper dh = DatabaseHelper.getInstance(getApplicationContext());
                 if(dh.passwordMatches(etUsername.getText().toString(), etPassword.getText().toString())) {
+                    String firstName = dh.queryUser(etUsername.getText().toString()).getName();
+                    String lastName = dh.queryUser(etUsername.getText().toString()).getSurname();
+                    String userName = dh.queryUser(etUsername.getText().toString()).getUsername();
+                    String eMail = dh.queryUser(etUsername.getText().toString()).getEmail();
+                    User currentUser = new User(firstName, lastName, userName, eMail);
+                    AccountHandler.setUser(currentUser);
+                    AccountHandler.setLogin(true);
+
                     LoginActivity.this.startActivity(loginIntent);
                     finish();
                 } else {

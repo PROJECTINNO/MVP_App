@@ -61,12 +61,12 @@ public class UserActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-       View hView = navigationView.getHeaderView(0);
+        View hView = navigationView.getHeaderView(0);
         h1 = (TextView) hView.findViewById(R.id.welcome_header1);
         h2 = (TextView) hView.findViewById(R.id.welcome_header2);
         listView  = (ListView) findViewById(R.id.list_container);
-        h1.setText("Welcome");
-        h2.setText("Balance App 1.0");
+        h1.setText(AccountHandler.getUser().getUsername());
+        h2.setText(AccountHandler.getUser().getEmail());
 
     }
 
@@ -153,6 +153,8 @@ public class UserActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        AccountHandler.setLogin(false);
+                        AccountHandler.setUser(null);
                         Intent logoutIntent = new Intent(UserActivity.this, LoginActivity.class);
                         UserActivity.this.startActivity(logoutIntent);
                         finish();                    }})
