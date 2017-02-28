@@ -77,86 +77,28 @@ public class AccelerationData {
         return size;
     }
 
-    public static double xAverage(int i, int n, List<Coordinate> ls) {
-        double sum = 0;
-
-        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
-            sum += ls.get(i + j).getX();
+    public ArrayList<Double> getAccX(){
+        ArrayList<Double> accx = new ArrayList<Double>();
+        for (int i = 0; i<=this.size;i++){
+            accx.add(this.get(i).getX());
         }
-        return sum/n;
+        return accx;
     }
 
-    public static double yAverage(int i, int n, List<Coordinate> ls) {
-        double sum = 0;
-
-        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
-            sum += ls.get(i + j).getY();
+    public ArrayList<Double> getAccY(){
+        ArrayList<Double> accy = new ArrayList<Double>();
+        for (int i = 0; i<=this.size;i++){
+            accy.add(this.get(i).getY());
         }
-        return sum/n;
+        return accy;
     }
 
-    public static double zAverage(int i, int n, List<Coordinate> ls) {
-        double sum = 0;
-
-        for (int j = -(n - 1) / 2; j <= (n - 1) / 2; j++) {
-            sum += ls.get(i + j).getZ();
+    public ArrayList<Double> getAccZ(){
+        ArrayList<Double> accz = new ArrayList<Double>();
+        for (int i = 0; i<=this.size;i++){
+            accz.add(this.get(i).getZ());
         }
-        return sum/n;
-    }
-
-
-    public ArrayList<Double> calcXAverage() {
-        int n = coordinates.size();
-        int N = 9;
-        ArrayList<Double> acc = new ArrayList<Double>();
-
-        for (int i = 0; i < n; i++) {
-            Coordinate coord = coordinates.get(i);
-            if (i < (N - 1) / 2) {
-                acc.add(coord.getX());
-            } else if (i > n - 1 - ((N - 1) / 2)) {
-                acc.add(coord.getX());
-            } else {
-                acc.add(xAverage(i, N, coordinates));
-            }
-        }
-        return acc;
-    }
-
-    public ArrayList<Double> calcYAverage() {
-        int n = coordinates.size();
-        int N = 9;
-        ArrayList<Double> acc = new ArrayList<Double>();
-
-        for (int i = 0; i < n; i++) {
-            Coordinate coord = coordinates.get(i);
-            if (i < (N - 1) / 2) {
-                acc.add(coord.getY());
-            } else if (i > n - 1 - ((N - 1) / 2)) {
-                acc.add(coord.getY());
-            } else {
-                acc.add(yAverage(i, N, coordinates));
-            }
-        }
-        return acc;
-    }
-
-    public ArrayList<Double> calcZAverage() {
-        int n = coordinates.size();
-        int N = 9;
-        ArrayList<Double> acc = new ArrayList<Double>();
-
-        for (int i = 0; i < n; i++) {
-            Coordinate coord = coordinates.get(i);
-            if (i < (N - 1) / 2) {
-                acc.add(coord.getZ());
-            } else if (i > n - 1 - ((N - 1) / 2)) {
-                acc.add(coord.getZ());
-            } else {
-                acc.add(zAverage(i, N, coordinates));
-            }
-        }
-        return acc;
+        return accz;
     }
 
     public void add(Coordinate data){
