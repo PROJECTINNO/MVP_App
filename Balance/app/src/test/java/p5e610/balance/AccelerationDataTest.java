@@ -122,5 +122,5 @@ public class AccelerationDataTest {
         assert(AccelerationData.percentage(x,y,a,b,theta,p)== 1.0);
     }
     @Test
-    public void testmycomp() throws Exception{}
+    public void testmycomput() throws Exception{}
 }
