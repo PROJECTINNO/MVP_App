@@ -71,7 +71,7 @@ public class Test {
         for (int j = 0; j<6;j++) {
 
             for (int i = j*(size/6); i < (j+1)*(size/6); i++) {
-                ellipseData[j] = EllipseConstruction.angle((ArrayList) accx.subList(j*(size/6), (j+1)*(size/6)), (ArrayList) accy.subList(j*(size/6), (j+1)*(size/6)));
+                ellipseData[j] = AccelerationData.angle((ArrayList) accx.subList(j*(size/6), (j+1)*(size/6)), (ArrayList) accy.subList(j*(size/6), (j+1)*(size/6)));
             }
         }
     }
