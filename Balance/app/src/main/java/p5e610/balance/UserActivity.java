@@ -144,7 +144,7 @@ public class UserActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String item = listTests.get(position);
                 if (item == "BESS"){
-                    Intent continueIntent = new Intent(UserActivity.this, TestActivity.class);
+                    Intent continueIntent = new Intent(UserActivity.this, CompassActivity.class);
                     UserActivity.this.startActivity(continueIntent);
                 }
             }
@@ -163,7 +163,7 @@ public class UserActivity extends AppCompatActivity
                         AccountHandler.setUser(null);
                         Intent logoutIntent = new Intent(UserActivity.this, LoginActivity.class);
                         UserActivity.this.startActivity(logoutIntent);
-                        finish();                    }})
+                        finish();}})
                 .setNegativeButton(android.R.string.no, null).show();
 
     }
