@@ -30,8 +30,9 @@ public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView h1;
     private TextView h2;
-    private RelativeLayout layout;
+    private RelativeLayout sub_layout;
     private ListView listView;
+    private TextView etUsername;
     ArrayAdapter<String> adapter;
     ArrayList<String> listTests = new ArrayList<String>();
 
@@ -64,9 +65,14 @@ public class UserActivity extends AppCompatActivity
         View hView = navigationView.getHeaderView(0);
         h1 = (TextView) hView.findViewById(R.id.welcome_header1);
         h2 = (TextView) hView.findViewById(R.id.welcome_header2);
+        etUsername = (TextView) findViewById(R.id.etUsername);
         listView  = (ListView) findViewById(R.id.list_container);
+        sub_layout = (RelativeLayout) findViewById(R.id.content_user);
+
         h1.setText(AccountHandler.getUser().getUsername());
         h2.setText(AccountHandler.getUser().getEmail());
+        etUsername.setText(AccountHandler.getUser().getUsername());
+
 
     }
 
