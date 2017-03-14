@@ -375,11 +375,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         ArrayList<Double> x = new ArrayList<Double>(); // absisse
         ArrayList<Double> y = new ArrayList<Double>(); //ordonnée
 
-        double x0 = EllipseConstruction.mean(accx);
-        double y0 = EllipseConstruction.mean(accy);
-        double theta = EllipseConstruction.angle(accx,accy);
-        double a = EllipseConstruction.eigenvalues(accx,accy)[0];
-        double b = EllipseConstruction.eigenvalues(accx,accy)[1];
+        double x0 = AccelerationData.mean(accx);
+        double y0 = AccelerationData.mean(accy);
+        double theta = sensorData.angle();
+        double a = sensorData.eigenvalues()[0];
+        double b = sensorData.eigenvalues()[1];
         for (int i = 0; i<100;i++){
             t.add(2.0*Math.PI*i/100.0);
             x.add(x0 + a*Math.cos(t.get(i))*Math.cos(theta) - b*Math.sin(t.get(i))*Math.sin(theta));
