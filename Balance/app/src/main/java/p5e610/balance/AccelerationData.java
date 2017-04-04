@@ -212,5 +212,18 @@ public class AccelerationData {
         }
         return inEllipseCount / X.size();
     }
+    public static Double[] zeros(ArrayList <Double> X, ArrayList <Double> Y) {
+        Double[] counter = {0.0, 0.0};
+
+        for (int i = 0; i < X.size() - 1; i++) {
+            if (X.get(i) * X.get(i + 1) < 0) {
+                counter[0] += 1;
+            }
+            if (Y.get(i) * Y.get(i + 1) < 0) {
+                counter[1] += 1;
+            }
+        }
+        return counter;
+    }
 }
 

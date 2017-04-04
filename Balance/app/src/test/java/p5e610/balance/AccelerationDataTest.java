@@ -122,5 +122,16 @@ public class AccelerationDataTest {
         assert(AccelerationData.percentage(x,y,a,b,theta,p)== 1.0);
     }
     @Test
-    public void testmycomput() throws Exception{}
+    public void testzeros() throws Exception{
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(1.2);
+        x.add(0.1);
+        x.add(-1.0);
+        y.add(0.6);
+        y.add(-1.0);
+        y.add(1.3);
+        Double [] count = {1.0,2.0};
+        assert(Arrays.equals(AccelerationData.zeros(x,y),count));
+    }
 }
