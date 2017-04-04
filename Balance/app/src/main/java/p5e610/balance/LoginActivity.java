@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-import p5e610.database.HerokuDatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
