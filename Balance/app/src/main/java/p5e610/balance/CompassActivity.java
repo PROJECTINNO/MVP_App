@@ -69,8 +69,8 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     protected void onResume() {
         super.onResume();
 //        SensorManager.SENSOR_DELAY_UI
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, accelerometer, 40000);
+        mSensorManager.registerListener(this, magnetometer, 40000);
     }
 
     @Override
