@@ -227,3 +227,18 @@ public class AccelerationData {
     }
 }
 
+
+public static double MaximumModulus (ArrayList <Double> X, ArrayList <Double> Y) {
+    double res = 0;
+    for (int i=0; i< X.size()-1;i++){
+        double a = Math.sqrt(Math.pow(X.get(i),2)+ Math.pow(Y.get(i),2))
+                if ( a > res){
+                    res = a;
+                }
+    }
+    return res;
+}
+
+public static double range (ArrayList <Double> X){
+    return Collections.max(X) - Collections.min(X);
+}
