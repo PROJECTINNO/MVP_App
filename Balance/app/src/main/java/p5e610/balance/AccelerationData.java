@@ -21,12 +21,18 @@ public class AccelerationData {
         Double z;
         long timestamp;
 
-        public Double getX() {return x;}
+        public Double getX() {
+            return x;
+        }
+
         public void setX(Double x) {
             this.x = x;
         }
 
-        public Double getY() {return y;}
+        public Double getY() {
+            return y;
+        }
+
         public void setY(Double y) {
             this.y = y;
         }
@@ -34,6 +40,7 @@ public class AccelerationData {
         public Double getZ() {
             return z;
         }
+
         public void setZ(Double z) {
             this.z = z;
         }
@@ -41,6 +48,7 @@ public class AccelerationData {
         public long getTimestamp() {
             return timestamp;
         }
+
         public void setTimestamp(long timestamp) {
             this.timestamp = timestamp;
         }
@@ -72,35 +80,35 @@ public class AccelerationData {
         return size;
     }
 
-    public ArrayList<Double> getAccX(){
+    public ArrayList<Double> getAccX() {
         ArrayList<Double> accx = new ArrayList<>();
-        for (int i = 0; i < this.coordinates.size(); i++){
+        for (int i = 0; i < this.coordinates.size(); i++) {
             accx.add(this.get(i).getX());
         }
         return accx;
     }
 
-    public ArrayList<Double> getAccY(){
+    public ArrayList<Double> getAccY() {
         ArrayList<Double> accy = new ArrayList<>();
-        for (int i = 0; i < this.coordinates.size(); i++){
+        for (int i = 0; i < this.coordinates.size(); i++) {
             accy.add(this.get(i).getY());
         }
         return accy;
     }
 
-    public ArrayList<Double> getAccZ(){
+    public ArrayList<Double> getAccZ() {
         ArrayList<Double> accz = new ArrayList<>();
-        for (int i = 0; i < this.coordinates.size(); i++){
+        for (int i = 0; i < this.coordinates.size(); i++) {
             accz.add(this.get(i).getZ());
         }
         return accz;
     }
 
-    public void add(Coordinate data){
+    public void add(Coordinate data) {
         coordinates.add(data);
     }
 
-    public void add(Double x, Double y, Double z, long timestamp){
+    public void add(Double x, Double y, Double z, long timestamp) {
         coordinates.add(new Coordinate(x, y, z, timestamp));
     }
 
@@ -114,34 +122,34 @@ public class AccelerationData {
      */
 
     public static double mean(ArrayList<Double> arr) {
-        double sum  = 0.0;
-        for (int i = 0 ; i < arr.size(); i++) {
+        double sum = 0.0;
+        for (int i = 0; i < arr.size(); i++) {
             sum = sum + arr.get(i);
         }
 
         return sum / arr.size();
     }
 
-    public static double covar(ArrayList <Double> arr1, ArrayList <Double> arr2) {
+    public static double covar(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         double m1 = mean(arr1);
         double m2 = mean(arr2);
 
         double sumsq = 0.0;
-        for (int i = 0; i < arr1.size(); i++){
+        for (int i = 0; i < arr1.size(); i++) {
             sumsq += (m1 - arr1.get(i)) * (m2 - arr2.get(i));
         }
 
         return sumsq;
     }
 
-    public static Double[][] covarMatrix(ArrayList <Double> arr1, ArrayList <Double> arr2) {
-        return new Double[][] {
-                { covar(arr1, arr1), covar(arr1, arr2) },
-                { covar(arr1, arr2), covar(arr2, arr2) } };
+    public static Double[][] covarMatrix(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        return new Double[][]{
+                {covar(arr1, arr1), covar(arr1, arr2)},
+                {covar(arr1, arr2), covar(arr2, arr2)}};
     }
 
 
-    public static Double[] eigenvalues(ArrayList <Double> arr1, ArrayList <Double> arr2) {
+    public static Double[] eigenvalues(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[][] cov = covarMatrix(arr1, arr2);
         Double covXX = cov[0][0];
         Double covXY = cov[0][1];
@@ -149,12 +157,12 @@ public class AccelerationData {
 
         Double delta = square(covXX - covYY) + 4 * square(covXY);
 
-        return new Double[] {
+        return new Double[]{
                 ((covXX + covYY) + Math.sqrt(delta)) / 2,
                 (((covXX + covYY) - Math.sqrt(delta)) / 2)};
     }
 
-    public static Double[] mainDirection(ArrayList<Double> arr1, ArrayList <Double> arr2) {
+    public static Double[] mainDirection(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[][] cov = covarMatrix(arr1, arr2);
         Double lambda = eigenvalues(arr1, arr2)[0];
 
@@ -162,7 +170,7 @@ public class AccelerationData {
         Double covXY = cov[0][1];
         Double[] res = {1., 0.};
 
-        if (covXY != 0)  {
+        if (covXY != 0) {
             Double y = (lambda - covXX) / covXY;
             Double norm = 1. / Math.sqrt(1. + square(y));
             res[0] = norm;
@@ -175,7 +183,7 @@ public class AccelerationData {
     public static Double angle(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[] A = mainDirection(arr1, arr2);
         if (A[0] == 0) {
-            return Math.abs(A[1]) * Math.PI / 2 ;
+            return Math.abs(A[1]) * Math.PI / 2;
         } else {
             Double B = A[1] / A[0];
             Double res = A[0] * Math.atan(B) / Math.abs(A[0]);
@@ -184,13 +192,13 @@ public class AccelerationData {
 
     }
 
-    public static Boolean inEllipse( Double x,
-                                     Double y,
-                                     Double a,
-                                     Double b,
-                                     Double theta,
-                                     Double X0,
-                                     Double Y0) {
+    public static Boolean inEllipse(Double x,
+                                    Double y,
+                                    Double a,
+                                    Double b,
+                                    Double theta,
+                                    Double X0,
+                                    Double Y0) {
 
         Double X = Math.cos(theta) * x + Math.sin(theta) * y;
         Double Y = Math.cos(theta) * y - Math.sin(theta) * x;
@@ -198,21 +206,24 @@ public class AccelerationData {
         return (square(X - X0) / square(a) + square(Y - Y0) / square(b)) <= 1.;
     }
 
-    private static Double square(Double x) { return x * x; }
+    private static Double square(Double x) {
+        return x * x;
+    }
 
-    public static double percentage(ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
+    public static double percentage(ArrayList<Double> X, ArrayList<Double> Y, Double a, Double b, Double theta, Double p) {
         double inEllipseCount = 0;
         double xMean = mean(X);
         double yMean = mean(Y);
 
         for (int j = 0; j < X.size(); j++) {
-            if(inEllipse(X.get(j), Y.get(j), p * a, p * b, theta, xMean, yMean)) {
+            if (inEllipse(X.get(j), Y.get(j), p * a, p * b, theta, xMean, yMean)) {
                 inEllipseCount = inEllipseCount + 1.0;
             }
         }
         return inEllipseCount / X.size();
     }
-    public static Double[] zeros(ArrayList <Double> X, ArrayList <Double> Y) {
+
+    public static Double[] zeros(ArrayList<Double> X, ArrayList<Double> Y) {
         Double[] counter = {0.0, 0.0};
 
         for (int i = 0; i < X.size() - 1; i++) {
@@ -225,20 +236,21 @@ public class AccelerationData {
         }
         return counter;
     }
-}
 
 
-public static double MaximumModulus (ArrayList <Double> X, ArrayList <Double> Y) {
-    double res = 0;
-    for (int i=0; i< X.size()-1;i++){
-        double a = Math.sqrt(Math.pow(X.get(i),2)+ Math.pow(Y.get(i),2))
-                if ( a > res){
-                    res = a;
-                }
+    public static double maximumModulus(ArrayList<Double> X, ArrayList<Double> Y) {
+        double res = 0;
+        for (int i = 0; i < X.size() - 1; i++) {
+            double a = Math.sqrt(Math.pow(X.get(i), 2) + Math.pow(Y.get(i), 2));
+            if (a > res) {
+                res = a;
+            }
+        }
+        return res;
     }
-    return res;
+
+    public static double range(ArrayList<Double> X) {
+        return Collections.max(X) - Collections.min(X);
+    }
 }
 
-public static double range (ArrayList <Double> X){
-    return Collections.max(X) - Collections.min(X);
-}

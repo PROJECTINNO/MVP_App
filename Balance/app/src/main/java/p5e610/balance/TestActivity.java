@@ -267,7 +267,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 // ----------- FUTURE WORK -------------- //
 
 
-                new CountDownTimer(5000, 1000) {
+                new CountDownTimer(6000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         started = true;
@@ -494,7 +494,31 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
 
     private String computeData(){
-        return "yess";
+        double x0 = AccelerationData.mean(accx);
+        double y0 = AccelerationData.mean(accy);
+        double theta = AccelerationData.angle(accx,accy);
+        double lambda0 = AccelerationData.eigenvalues(accx,accy)[0];
+        double lambda1 = AccelerationData.eigenvalues(accx,accy)[1];
+        double a = Math.sqrt(5.991)*Math.sqrt(lambda0/(accx.size()-1));
+        double b = Math.sqrt(5.991)*Math.sqrt(lambda1/(accx.size()-1));
+        double rangeX = AccelerationData.range(accx);
+        double rangeY = AccelerationData.range(accy);
+        Double[] zeros = AccelerationData.zeros(accx,accy);
+        double modulus = AccelerationData.maximumModulus(accx,accy);
+        double per = AccelerationData.percentage(accx,accy,a,b,theta,1.0);
+
+        return "mean x  = " + x0 +"\n" +
+                "mean y  = " + y0 +"\n" +
+                "angle  = " + Math.toDegrees(theta) +"\n" +
+                "major half-axis  = " + a +"\n" +
+                "minor half-axis  = " + b +"\n" +
+                "range x  = " + rangeX +"\n" +
+                "range y  = " + rangeY +"\n" +
+                "number of zeroes x  = " + zeros[0] +"\n" +
+                "number of zeroes y  = " + zeros[1] +"\n" +
+                "maximum modulus  = " + modulus +"\n" +
+                "percentage = " + per;
+
     }
 
     private void saveDataToCSV() throws IOException {
