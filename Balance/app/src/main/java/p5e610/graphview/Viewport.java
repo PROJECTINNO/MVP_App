@@ -791,7 +791,7 @@ public class Viewport {
      *                          if false => minX of the current visible viewport
      * @return the min x value
      */
-    public double getMinX(boolean completeRange) {
+    public Double getMinX(boolean completeRange) {
         if (completeRange) {
             return mCompleteRange.left;
         } else {
@@ -804,7 +804,7 @@ public class Viewport {
      *                          if false => maxX of the current visible viewport
      * @return the max x value
      */
-    public double getMaxX(boolean completeRange) {
+    public Double getMaxX(boolean completeRange) {
         if (completeRange) {
             return mCompleteRange.right;
         } else {
@@ -817,7 +817,7 @@ public class Viewport {
      *                          if false => minY of the current visible viewport
      * @return the min y value
      */
-    public double getMinY(boolean completeRange) {
+    public Double getMinY(boolean completeRange) {
         if (completeRange) {
             return mCompleteRange.bottom;
         } else {
@@ -830,7 +830,7 @@ public class Viewport {
      *                          if false => maxY of the current visible viewport
      * @return the max y value
      */
-    public double getMaxY(boolean completeRange) {
+    public Double getMaxY(boolean completeRange) {
         if (completeRange) {
             return mCompleteRange.top;
         } else {

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Math.round;
+
 /**
  * Created by Cecile on 07/02/2017.
  * a class to represent the data collected by the accelerometer
@@ -114,7 +116,7 @@ public class AccelerationData {
     public static double mean(ArrayList<Double> arr) {
         double sum  = 0.0;
         for (int i = 0 ; i < arr.size(); i++) {
-            sum += arr.get(i);
+            sum = sum + arr.get(i);
         }
 
         return sum / arr.size();

@@ -191,20 +191,37 @@ public class LineGraphSeries<E extends DataPointInterface> extends BaseSeries<E>
     public void draw(GraphView graphView, Canvas canvas, boolean isSecondScale) {
         resetDataPoints();
 
+
         // get data
         double maxY = Double.NEGATIVE_INFINITY;
         double maxX = Double.NEGATIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
         double minX = Double.POSITIVE_INFINITY;
 
+        boolean minXSet = graphView.getViewport().getMinX(false) != null;
+        boolean maxXSet = graphView.getViewport().getMaxX(false) != null;
+        boolean minYSet = graphView.getViewport().getMinY(false) != null;
+        boolean maxYSet = graphView.getViewport().getMaxY(false) != null;
+
+        if (minXSet) minX = graphView.getViewport().getMinX(false);
+        if (maxXSet){
+            maxX = graphView.getViewport().getMaxX(false);
+        }
+        if (minYSet){
+            minY = graphView.getViewport().getMinY(false);
+        }
+        if (maxYSet){
+            maxY = graphView.getViewport().getMaxY(false);
+        }
+
         for(E val : mData) {
             double currX = val.getX();
             double currY = val.getY();
 
-            if (currX > maxX) maxX = currX;
-            if (currY > maxY) maxY = currY;
-            if (currX < minX) minX = currX;
-            if (currY < minY) minY = currY;
+            if (currX > maxX && !maxXSet) maxX = currX;
+            if (currY > maxY && !maxYSet) maxY = currY;
+            if (currX < minX && !minXSet) minX = currX;
+            if (currY < minY && !minYSet) minY = currY;
         }
 
         Iterator<E> values = getValues(minX, maxX);

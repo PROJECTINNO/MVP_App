@@ -63,6 +63,8 @@ import p5e610.graphview.series.LineGraphSeries;
 import p5e610.graphview.series.Series;
 import p5e610.balance.AccelerationData.Coordinate;
 
+import static java.util.Collections.max;
+
 public class TestActivity extends Activity implements SensorEventListener, OnClickListener {
     NotificationManager notificationManager;
     private NotificationCompat.Builder mBuilder;
@@ -378,13 +380,17 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         double x0 = AccelerationData.mean(accx);
         double y0 = AccelerationData.mean(accy);
         double theta = AccelerationData.angle(accx,accy);
-        double a = AccelerationData.eigenvalues(accx,accy)[0];
-        double b = AccelerationData.eigenvalues(accx,accy)[1];
-        for (int i = 0; i<100;i++){
+        double lambda0 = AccelerationData.eigenvalues(accx,accy)[0];
+        double lambda1 = AccelerationData.eigenvalues(accx,accy)[1];
+        double a = Math.sqrt(5.991)*Math.sqrt(lambda0/(accx.size()-1));
+        double b = Math.sqrt(5.991)*Math.sqrt(lambda1/(accx.size()-1));
+        System.out.println("axis : " + a + "  " + b);
+        for (int i = 0; i<=100;i++){
             t.add(2.0*Math.PI*i/100.0);
             x.add(x0 + a*Math.cos(t.get(i))*Math.cos(theta) - b*Math.sin(t.get(i))*Math.sin(theta));
-            y.add(y0 + a*Math.cos(t.get(i))*Math.sin(theta) - b*Math.sin(t.get(i))*Math.cos(theta));
+            y.add(y0 + a*Math.cos(t.get(i))*Math.sin(theta) + b*Math.sin(t.get(i))*Math.cos(theta));
         }
+        System.out.println("points : " + max(y));
 
         DataPoint[] ellipseList = new DataPoint[t.size()];
         for (int i = 0; i < t.size(); i++){
@@ -393,16 +399,69 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
         LineGraphSeries<DataPoint> ellipseSeries = new LineGraphSeries<>(ellipseList);
         ellipseSeries.setColor(Color.RED);
-        graph.addSeries(ellipseSeries);
+        ellipseSeries.setThickness(2);
+
         //Ellipse -----
+
+        // ---- Major axis of ellipse
+        //
+        ArrayList<Double> t2 = new ArrayList<Double>(); //parametric angle
+        ArrayList<Double> x2 = new ArrayList<Double>(); // absisse
+        ArrayList<Double> y2 = new ArrayList<Double>(); //ordonnée
+
+        double e0 = AccelerationData.mainDirection(accx,accy)[0];
+        double e1 = AccelerationData.mainDirection(accx,accy)[1];
+
+        for (int i = 0; i<=100;i++){
+            t2.add(-10.0 + 1.0*i/5.0);
+            x2.add(x0 + e0*t2.get(i));
+            y2.add(y0 + e1*t2.get(i));
+            System.out.println("t2 = " + t2.get(i));
+        }
+
+        DataPoint[] axisList = new DataPoint[t2.size()];
+        for (int i = 0; i < t2.size(); i++){
+            axisList[i] = new DataPoint(x2.get(i), y2.get(i));
+        }
+
+        LineGraphSeries<DataPoint> axisSeries = new LineGraphSeries<>(axisList);
+        axisSeries.setColor(Color.RED);
+        axisSeries.setThickness(5);
+
+        //Major Axis -----
 
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dpList);
+        series.setThickness(2);
+
+        graph.addSeries(ellipseSeries);
         graph.addSeries(series);
-        graph.getViewport().setMinX(minx);
-        graph.getViewport().setMaxX(maxx);
-        graph.getViewport().setMinY(miny);
-        graph.getViewport().setMaxY(maxy);
+        graph.addSeries(axisSeries);
+
+        //Setting the scale ---------------
+        //Should be changed regarding to the mean data : what is the appropriate scale
+        // for a good person and what is it for an unbalanced one ?
+        if(maxx < 3.0 && minx > -3.0) {
+            graph.getViewport().setMinX(-3.0);
+            graph.getViewport().setMaxX(3.0);}
+        else {
+            graph.getViewport().setMinX(-5.0);
+            graph.getViewport().setMaxX(5.0);}
+
+        if(maxy < 5.0 && miny > -5.0) {
+            graph.getViewport().setMinY(-5.0);
+            graph.getViewport().setMaxY(5.0);}
+        else {
+            graph.getViewport().setMinY(-10.0);
+            graph.getViewport().setMaxY(10.0);}
+
+        //---------------Setting the scale
+
+
+
+
+        graph.getViewport().setScalable(false);
+        graph.getViewport().setScalableY(false);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.setTitle("Graph of x vs y acceleration (ms^-2)");

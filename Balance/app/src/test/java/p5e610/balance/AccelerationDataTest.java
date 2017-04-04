@@ -67,8 +67,8 @@ public class AccelerationDataTest {
     public void testMean() throws Exception {
         ArrayList<Double> x = new ArrayList<>();
         x.add(0.0);
-        x.add(2.0);
-        assert(AccelerationData.mean(x) == 1.0);
+        x.add(2.3);
+        assert(AccelerationData.mean(x) == 1.15);
     }
 
     @Test
