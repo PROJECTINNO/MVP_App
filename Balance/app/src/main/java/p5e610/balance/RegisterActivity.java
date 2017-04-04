@@ -30,10 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
         final Button btnRegister = (Button) findViewById(R.id.btnRegister);
         final Button btnReturn = (Button) findViewById(R.id.btnCancel);
 
-        btnRegister.setOnClickListener(new View.OnClickListener(){
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             // TODO: implement a web database instead
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 final String firstName = etFirstName.getText().toString();
                 final String lastName = etLastName.getText().toString();
                 final String userName = etUsername.getText().toString();
@@ -41,8 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = etEmail.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
+//                HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
+//                try {
                 //HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
-                try {
+//                try {
 //                    if(dh.usernameTaken(userName)) {
 //                        Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
 //                    } else {
@@ -51,23 +53,31 @@ public class RegisterActivity extends AppCompatActivity {
 //                        RegisterActivity.this.startActivity(continueIntent);
 //                        finish();
 //                    }
-                } catch (Exception e) {
-                    //TODO replace  with different behavior
-                    e.printStackTrace();
-                }
+//                } catch (Exception e) {
+//                    //TODO replace  with different behavior
+//                    e.printStackTrace();
+//                }
+                //         }
+//                } catch(Exception e) {
+//                    //TODO replace  with different behavior
+//                    e.printStackTrace();
+//                }
+//            }
+
             }
+
+            ;
+
+//        btnReturn.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Intent returnIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+//                RegisterActivity.this.startActivity(returnIntent);
+//                finish();
+//            }
+//
+//            });
 
         });
-
-        btnReturn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent returnIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                RegisterActivity.this.startActivity(returnIntent);
-                finish();
-            }
-
-            });
-
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
+import org.junit.Assert;
 
 import p5e610.balance.AccelerationData;
 
@@ -68,7 +69,7 @@ public class AccelerationDataTest {
         ArrayList<Double> x = new ArrayList<>();
         x.add(0.0);
         x.add(2.3);
-        assert(AccelerationData.mean(x) == 1.15);
+        assertEquals(1.15,AccelerationData.mean(x),0.001);
     }
 
     @Test
@@ -79,7 +80,7 @@ public class AccelerationDataTest {
         x.add(2.0);
         y.add(0.0);
         y.add(4.0);
-        assert(AccelerationData.covar(x,y) == 4.0);
+        assertEquals(2.0,AccelerationData.covar(x,y),0.001);
     }
 
     @Test
@@ -90,8 +91,8 @@ public class AccelerationDataTest {
         x.add(2.0);
         y.add(0.0);
         y.add(4.0);
-        Double[] vp = {10.0, 0.0};
-        assert(Arrays.equals(AccelerationData.eigenvalues(x,y),vp));
+        Double[] vp = {5.0, 0.0};
+        Assert.assertArrayEquals(vp,AccelerationData.eigenvalues(x,y));
     }
 
     @Test
@@ -103,8 +104,9 @@ public class AccelerationDataTest {
         y.add(0.0);
         y.add(4.0);
         Double[] vp = {1.0/Math.sqrt(5), 2.0/Math.sqrt(5)};
-        assert(Arrays.equals(AccelerationData.mainDirection(x,y),vp));
+        Assert.assertArrayEquals(vp,AccelerationData.mainDirection(x,y));
     }
+
     @Test
     public void testPercentage() throws Exception {
         ArrayList<Double> x = new ArrayList<>();
@@ -119,8 +121,9 @@ public class AccelerationDataTest {
         Double a = 2.0;
         Double b = 1.0;
         Double p = 1.0;
-        assert(AccelerationData.percentage(x,y,a,b,theta,p)== 1.0);
+        assertEquals(1.0,AccelerationData.percentage(x,y,a,b,theta,p),0.001);
     }
+
     @Test
     public void testzeros() throws Exception{
         ArrayList<Double> x = new ArrayList<>();
@@ -132,6 +135,19 @@ public class AccelerationDataTest {
         y.add(-1.0);
         y.add(1.3);
         Double [] count = {1.0,2.0};
-        assert(Arrays.equals(AccelerationData.zeros(x,y),count));
+        Assert.assertArrayEquals(count,AccelerationData.zeros(x,y));
+    }
+    @Test
+    public void testMaximumModulus() throws Exception{
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(10.0);
+        x.add(2.0);
+        x.add(-3.0);
+        y.add(0.0);
+        y.add(-1.0);
+        y.add(4.0);
+        double maxi = 10.0;
+        assertEquals(maxi,AccelerationData.MaximumModulus(x,y),0.001);
     }
 }
