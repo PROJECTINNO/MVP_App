@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "10862420255",
+    "firebase_url": "https://balance-c2f90.firebaseio.com",
+    "project_id": "balance-c2f90",
+    "storage_bucket": "balance-c2f90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10862420255:android:8271769936b3d37f",
+        "android_client_info": {
+          "package_name": "p5e610.balance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10862420255-373tfbkvn6js5hve0nm41f5b71ssn415.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "p5e610.balance",
+            "certificate_hash": "d9a383a935d714da0120523f447d1d741dd69aac"
+          }
+        },
+        {
+          "client_id": "10862420255-ehk99dmg3ir4raq8nddrkks02qvmjdad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfGFHC9gxcSV2kg44jDJqU2XmDPpAPq7Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10862420255-ehk99dmg3ir4raq8nddrkks02qvmjdad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
