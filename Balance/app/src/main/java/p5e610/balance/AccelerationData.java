@@ -131,7 +131,7 @@ public class AccelerationData {
             sumsq += (m1 - arr1.get(i)) * (m2 - arr2.get(i));
         }
 
-        return sumsq;
+        return sumsq/arr1.size();
     }
 
     public static Double[][] covarMatrix(ArrayList <Double> arr1, ArrayList <Double> arr2) {
