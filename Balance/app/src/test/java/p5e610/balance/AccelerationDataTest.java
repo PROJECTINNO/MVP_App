@@ -3,6 +3,7 @@ package p5e610.balance;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -60,5 +61,77 @@ public class AccelerationDataTest {
         res.add(4.0);
         res.add(7.0);
         assertEquals(res, data.getAccX());
+    }
+
+    @Test
+    public void testMean() throws Exception {
+        ArrayList<Double> x = new ArrayList<>();
+        x.add(0.0);
+        x.add(2.3);
+        assert(AccelerationData.mean(x) == 1.15);
+    }
+
+    @Test
+    public void testCovariance() throws Exception {
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(0.0);
+        x.add(2.0);
+        y.add(0.0);
+        y.add(4.0);
+        assert(AccelerationData.covar(x,y) == 4.0);
+    }
+
+    @Test
+    public void testEigenvalues() throws Exception {
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(0.0);
+        x.add(2.0);
+        y.add(0.0);
+        y.add(4.0);
+        Double[] vp = {10.0, 0.0};
+        assert(Arrays.equals(AccelerationData.eigenvalues(x,y),vp));
+    }
+
+    @Test
+    public void testMainDirection() throws Exception {
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(0.0);
+        x.add(2.0);
+        y.add(0.0);
+        y.add(4.0);
+        Double[] vp = {1.0/Math.sqrt(5), 2.0/Math.sqrt(5)};
+        assert(Arrays.equals(AccelerationData.mainDirection(x,y),vp));
+    }
+    @Test
+    public void testPercentage() throws Exception {
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(0.0);
+        x.add(1.0);
+        x.add(-1.0);
+        y.add(0.0);
+        y.add(1.0);
+        y.add(-1.0);
+        Double theta = Math.PI / 4;
+        Double a = 2.0;
+        Double b = 1.0;
+        Double p = 1.0;
+        assert(AccelerationData.percentage(x,y,a,b,theta,p)== 1.0);
+    }
+    @Test
+    public void testzeros() throws Exception{
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(1.2);
+        x.add(0.1);
+        x.add(-1.0);
+        y.add(0.6);
+        y.add(-1.0);
+        y.add(1.3);
+        Double [] count = {1.0,2.0};
+        assert(Arrays.equals(AccelerationData.zeros(x,y),count));
     }
 }

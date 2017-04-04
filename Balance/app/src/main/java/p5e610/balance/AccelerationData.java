@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Math.round;
+
 /**
  * Created by Cecile on 07/02/2017.
  * a class to represent the data collected by the accelerometer
@@ -13,10 +15,6 @@ import java.util.List;
 public class AccelerationData {
     private int size = 0;
 
-    /**
-     * Coordinate represents a set of 4 datas,
-     * accelerations in x, y, z and the time this data has been taken
-     */
     public static class Coordinate {
         Double x;
         Double y;
@@ -60,9 +58,6 @@ public class AccelerationData {
         }
     }
 
-    /**
-     * AccelerationData is then just an array of coordinates
-     */
     private List<Coordinate> coordinates;
 
     public AccelerationData() {
@@ -115,41 +110,39 @@ public class AccelerationData {
     }
 
     /**
-     * here are the function used to calculate the confidence ellipse
+     * functions relatives to the construciton of the Ellipse
      */
 
     public static double mean(ArrayList<Double> arr) {
         double sum  = 0.0;
         for (int i = 0 ; i < arr.size(); i++) {
-            sum += arr.get(i);
+            sum = sum + arr.get(i);
         }
 
         return sum / arr.size();
     }
 
-    public double covar() {
-        ArrayList<Double> arrX = this.getAccX();
-        ArrayList<Double> arrY = this.getAccY();
-        double m1 = mean(arrX);
-        double m2 = mean(arrY);
+    public static double covar(ArrayList <Double> arr1, ArrayList <Double> arr2) {
+        double m1 = mean(arr1);
+        double m2 = mean(arr2);
 
         double sumsq = 0.0;
-        for (int i = 0; i < arrX.size(); i++){
-            sumsq += (m1 - arrX.get(i)) * (m2 - arrY.get(i));
+        for (int i = 0; i < arr1.size(); i++){
+            sumsq += (m1 - arr1.get(i)) * (m2 - arr2.get(i));
         }
 
         return sumsq;
     }
 
-    public Double[][] covarMatrix() {
+    public static Double[][] covarMatrix(ArrayList <Double> arr1, ArrayList <Double> arr2) {
         return new Double[][] {
-                { covar(), covar() },
-                { covar(), covar() } };
+                { covar(arr1, arr1), covar(arr1, arr2) },
+                { covar(arr1, arr2), covar(arr2, arr2) } };
     }
 
 
-    public Double[] eigenvalues() {
-        Double[][] cov = covarMatrix();
+    public static Double[] eigenvalues(ArrayList <Double> arr1, ArrayList <Double> arr2) {
+        Double[][] cov = covarMatrix(arr1, arr2);
         Double covXX = cov[0][0];
         Double covXY = cov[0][1];
         Double covYY = cov[1][1];
@@ -161,9 +154,9 @@ public class AccelerationData {
                 (((covXX + covYY) - Math.sqrt(delta)) / 2)};
     }
 
-    public Double[] mainDirection() {
-        Double[][] cov = covarMatrix();
-        Double lambda = eigenvalues()[0];
+    public static Double[] mainDirection(ArrayList<Double> arr1, ArrayList <Double> arr2) {
+        Double[][] cov = covarMatrix(arr1, arr2);
+        Double lambda = eigenvalues(arr1, arr2)[0];
 
         Double covXX = cov[0][0];
         Double covXY = cov[0][1];
@@ -179,8 +172,8 @@ public class AccelerationData {
         return res;
     }
 
-    public Double angle() {
-        Double[] A = mainDirection();
+    public static Double angle(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        Double[] A = mainDirection(arr1, arr2);
         if (A[0] == 0) {
             return Math.abs(A[1]) * Math.PI / 2 ;
         } else {
@@ -191,18 +184,7 @@ public class AccelerationData {
 
     }
 
-    /**
-     *
-     * @param x coordinates of the point we want to check is in the ellipse or not
-     * @param y
-     * @param a the big semi axis
-     * @param b the small semi axis
-     * @param theta
-     * @param X0 center of ellipse
-     * @param Y0 center of ellispe
-     * @return a boolean that says if the point (x,y) is in the Ellipse described by the other parameters
-     */
-    public Boolean inEllipse( Double x,
+    public static Boolean inEllipse( Double x,
                                      Double y,
                                      Double a,
                                      Double b,
@@ -216,19 +198,32 @@ public class AccelerationData {
         return (square(X - X0) / square(a) + square(Y - Y0) / square(b)) <= 1.;
     }
 
-    private  Double square(Double x) { return x * x; }
+    private static Double square(Double x) { return x * x; }
 
-    public double percentage(ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
+    public static double percentage(ArrayList <Double> X, ArrayList <Double> Y, Double a, Double b, Double theta, Double p) {
         double inEllipseCount = 0;
         double xMean = mean(X);
         double yMean = mean(Y);
 
         for (int j = 0; j < X.size(); j++) {
-            if(this.inEllipse(X.get(j), Y.get(j), p * a, p * b, theta, xMean, yMean)) {
+            if(inEllipse(X.get(j), Y.get(j), p * a, p * b, theta, xMean, yMean)) {
                 inEllipseCount = inEllipseCount + 1.0;
             }
         }
         return inEllipseCount / X.size();
+    }
+    public static Double[] zeros(ArrayList <Double> X, ArrayList <Double> Y) {
+        Double[] counter = {0.0, 0.0};
+
+        for (int i = 0; i < X.size() - 1; i++) {
+            if (X.get(i) * X.get(i + 1) < 0) {
+                counter[0] += 1;
+            }
+            if (Y.get(i) * Y.get(i + 1) < 0) {
+                counter[1] += 1;
+            }
+        }
+        return counter;
     }
 }
 

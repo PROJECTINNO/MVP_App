@@ -18,11 +18,9 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -144,7 +142,7 @@ public class UserActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String item = listTests.get(position);
                 if (item == "BESS"){
-                    Intent continueIntent = new Intent(UserActivity.this, TestActivity.class);
+                    Intent continueIntent = new Intent(UserActivity.this, CompassActivity.class);
                     UserActivity.this.startActivity(continueIntent);
                 }
             }
@@ -163,7 +161,7 @@ public class UserActivity extends AppCompatActivity
                         AccountHandler.setUser(null);
                         Intent logoutIntent = new Intent(UserActivity.this, LoginActivity.class);
                         UserActivity.this.startActivity(logoutIntent);
-                        finish();                    }})
+                        finish();}})
                 .setNegativeButton(android.R.string.no, null).show();
 
     }
