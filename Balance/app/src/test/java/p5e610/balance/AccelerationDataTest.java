@@ -69,7 +69,7 @@ public class AccelerationDataTest {
         ArrayList<Double> x = new ArrayList<>();
         x.add(0.0);
         x.add(2.3);
-        assert(AccelerationData.mean(x) == 1.15);
+        assertEquals(1.15,AccelerationData.mean(x),0.001);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AccelerationDataTest {
         x.add(2.0);
         y.add(0.0);
         y.add(4.0);
-        assert(AccelerationData.covar(x,y) == 4.0);
+        assertEquals(2.0,AccelerationData.covar(x,y),0.001);
     }
 
     @Test
@@ -121,9 +121,9 @@ public class AccelerationDataTest {
         Double a = 2.0;
         Double b = 1.0;
         Double p = 1.0;
-        assert(AccelerationData.percentage(x,y,a,b,theta,p)== 1.0);
+        assertEquals(1.0,AccelerationData.percentage(x,y,a,b,theta,p),0.001);
     }
-    
+
     @Test
     public void testzeros() throws Exception{
         ArrayList<Double> x = new ArrayList<>();
@@ -136,5 +136,18 @@ public class AccelerationDataTest {
         y.add(1.3);
         Double [] count = {1.0,2.0};
         Assert.assertArrayEquals(count,AccelerationData.zeros(x,y));
+    }
+    @Test
+    public void testMaximumModulus() throws Exception{
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+        x.add(10.0);
+        x.add(2.0);
+        x.add(-3.0);
+        y.add(0.0);
+        y.add(-1.0);
+        y.add(4.0);
+        double maxi = 10.0;
+        assertEquals(maxi,AccelerationData.MaximumModulus(x,y),0.001);
     }
 }
