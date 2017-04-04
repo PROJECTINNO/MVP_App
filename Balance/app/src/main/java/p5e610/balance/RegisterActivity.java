@@ -41,8 +41,13 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = etEmail.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
+<<<<<<< HEAD
 //                HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
 //                try {
+=======
+                //HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
+                try {
+>>>>>>> 16b4efbb432ba5ffdb20e1949d47ccb11d6afc92
 //                    if(dh.usernameTaken(userName)) {
 //                        Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
 //                    } else {
@@ -51,11 +56,19 @@ public class RegisterActivity extends AppCompatActivity {
 //                        RegisterActivity.this.startActivity(continueIntent);
 //                        finish();
 //                    }
+<<<<<<< HEAD
 //                } catch (Exception e) {
 //                    //TODO replace  with different behavior
 //                    e.printStackTrace();
 //                }
           }
+=======
+                } catch (Exception e) {
+                    //TODO replace  with different behavior
+                    e.printStackTrace();
+                }
+            }
+>>>>>>> 16b4efbb432ba5ffdb20e1949d47ccb11d6afc92
 
        });
 

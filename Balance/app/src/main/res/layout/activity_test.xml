@@ -34,6 +34,13 @@
             android:layout_weight="1"
             android:text="Upload"
             android:backgroundTint="@android:color/transparent" />
+        <Button
+            android:id="@+id/btnData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Data"
+            android:backgroundTint="@android:color/transparent" />
 
     </LinearLayout>
 
@@ -98,6 +105,17 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/dataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20pt"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 </RelativeLayout>

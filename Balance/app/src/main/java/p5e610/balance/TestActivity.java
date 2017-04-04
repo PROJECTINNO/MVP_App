@@ -69,10 +69,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     NotificationManager notificationManager;
     private NotificationCompat.Builder mBuilder;
     private SensorManager sensorManager;
-    private Button btnStart, btnAcceleration, btnUpload, btnStop;
+    private Button btnStart, btnAcceleration, btnUpload, btnStop, btnData;
     private TextView mTextView;
     private EditText mTextField;
     private EditText mPrepField;
+    private TextView dataField;
     private boolean started = false;
     private RelativeLayout layout;
     private AudioManager audioManager;
@@ -116,17 +117,21 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         graph = (GraphView) findViewById(R.id.graph);
         mPrepField = (EditText) findViewById((R.id.prepText));
         mTextField = (EditText) findViewById(R.id.editText);
+        dataField = (TextView) findViewById(R.id.dataText);
         mTextField.setEnabled(false);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnAcceleration = (Button) findViewById(R.id.btnAcceleration);
         btnUpload = (Button) findViewById(R.id.btnUpload);
+        btnData = (Button) findViewById(R.id.btnData);
         btnStart.setOnClickListener(this);
         btnAcceleration.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnStart.setEnabled(true);
+        btnData.setOnClickListener(this);
         btnAcceleration.setEnabled(false);
+        btnData.setEnabled(false);
         if (sensorData == null || sensorData.size() == 0) {
             btnUpload.setEnabled(false);
         }
@@ -240,6 +245,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnUpload.setEnabled(true);
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStop.setEnabled(false);
+                btnData.setEnabled(true);
                 sensorData = new AccelerationData();
                 accx = new ArrayList<Double>();
                 accy = new ArrayList<Double>();
@@ -261,12 +267,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 // ----------- FUTURE WORK -------------- //
 
 
-                new CountDownTimer(20000, 1000) {
+                new CountDownTimer(5000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         started = true;
                         btnAcceleration.setEnabled(false);
                         btnUpload.setEnabled(false);
+                        btnData.setEnabled(false);
                         mTextField.playSoundEffect(SoundEffectConstants.CLICK);
                         mTextField.setVisibility(View.VISIBLE);
                         mTextField.setText("TIME REMAINING: " + millisUntilFinished / 1000 + "s");
@@ -287,6 +294,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                         btnStart.setEnabled(true);
                         btnUpload.setEnabled(true);
                         btnAcceleration.setEnabled(true);
+                        btnData.setEnabled(true);
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -302,12 +310,14 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
                 btnAcceleration.setEnabled(false);
+                btnData.setEnabled(false);
                 seeGraph();
 
                 break;
             case R.id.btnAcceleration:
                 btnStart.setEnabled(true);
                 btnAcceleration.setEnabled(false);
+                btnData.setEnabled(true);
                 btnUpload.setEnabled(true);
                 started = false;
                 sensorManager.unregisterListener(this);
@@ -318,6 +328,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             case R.id.btnUpload:
                 btnStart.setEnabled(true);
                 btnAcceleration.setEnabled(true);
+                btnData.setEnabled(true);
                 btnUpload.setEnabled(false);
                 started = false;
                 sensorManager.unregisterListener(this);
@@ -326,6 +337,20 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.btnData:
+                layout.removeAllViews();
+                graph.removeAllSeries();
+                btnStart.setEnabled(true);
+                btnAcceleration.setEnabled(true);
+                btnData.setEnabled(false);
+                btnUpload.setEnabled(false);
+                started = false;
+                sensorManager.unregisterListener(this);
+                dataField.setText(computeData());
+                dataField.setVisibility(View.VISIBLE);
+                layout.addView(dataField);
+
                 break;
             default:
                 break;
@@ -467,6 +492,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         graph.setTitle("Graph of x vs y acceleration (ms^-2)");
         layout.addView(graph);
     }
+
+    private String computeData(){
+        return "yess";
+    }
+
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//
         accx = sensorData.getAccX();
