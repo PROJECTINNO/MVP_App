@@ -6,11 +6,13 @@ import java.util.ArrayList;
 public class Doctor extends User {
     private ArrayList<Patient> PatientList;
 
-    public Doctor(String name, String surname, String username, String email, ArrayList<Patient> patientList) {
-        super(name, surname, username, email);
-        PatientList = patientList;
+    public Doctor(String name, String surname, String username, String email, Integer hashedPw) {
+        super(name, surname, username, email, hashedPw);
     }
 
+    public boolean isDoctor()  {
+        return true;
+    }
     public ArrayList<Patient> getPatientList() {return PatientList;}
 
     public void setPatientList(ArrayList<Patient> PatientList) {this.PatientList = PatientList;}

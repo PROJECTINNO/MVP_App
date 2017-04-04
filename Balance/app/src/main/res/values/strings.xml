@@ -12,6 +12,8 @@
     <string name="action_settings">Settings</string>
     <string name="not_a_user">Wrong username/password. Please try again or register a new account!</string>
     <string name="username_taken">Username is in use. Please try another.</string>
+    <string name="pws_dont_match">Passwords don\'t match. Please try again.</string>
+    <string name="auth_failed">Unable to add user. Please try again.</string>
     <string name="logout_title">End Session</string>
     <string name="logout_question">Do you want to log out?</string>
 </resources>

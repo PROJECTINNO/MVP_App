@@ -1,18 +1,22 @@
 package p5e610.balance;
 
-public class User {
+public abstract class User {
 
    private String name;
    private String surname;
    private String username;
    private String email;
+    private Integer hashedPw;
 
-    public User(String name, String surname, String username, String email) {
+    public User(String name, String surname, String username, String email, Integer hashedPw) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
+        this.hashedPw = hashedPw;
     }
+
+    public User() { }
 
      public String getName() {return name;}
 
@@ -27,6 +31,8 @@ public class User {
      public void setUsername(String username) {this.username = username;}
 
      public String getEmail() {return email;}
+
+    public abstract boolean isDoctor();
 
      public void setEmail(String email) {this.email = email;}
 
