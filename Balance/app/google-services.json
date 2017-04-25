@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "10862420255-6fdul8a9ao8dlfc219mfpge2kjutnksr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "p5e610.balance",
+            "certificate_hash": "b5f8b71df6f392a37b34f7e202a28a2ecf507df9"
+          }
+        },
+        {
           "client_id": "10862420255-373tfbkvn6js5hve0nm41f5b71ssn415.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

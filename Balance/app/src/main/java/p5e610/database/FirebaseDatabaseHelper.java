@@ -7,8 +7,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.*;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 
 import java.net.URISyntaxException;
@@ -35,6 +34,8 @@ import p5e610.balance.User;
  */
 
 public class FirebaseDatabaseHelper {
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String DATABASE_URL =
             "postgres://ngkmaxuijzenoj:2030be4a3342a33f90ec40d801ca82560046c603d4a7b99d347444d" +
                     "89aa0ec39@ec2-54-221-244-196.compute-1.amazonaws.com:5432/dbeo6e7a6ru1uu";
@@ -74,6 +75,7 @@ public class FirebaseDatabaseHelper {
 //                USER_PASSWORD_COL, USER_DOCTOR_COL, USER_DATE_COL);
 //
 //        Connection conn = getConnection();
+
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = db.getReference("users");
