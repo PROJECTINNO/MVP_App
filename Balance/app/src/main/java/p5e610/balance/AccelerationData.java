@@ -121,6 +121,11 @@ public class AccelerationData {
      * functions relatives to the construciton of the Ellipse
      */
 
+    /**
+     * calculates the mean of an array of data
+     * @param arr
+     * @return mean(arr)
+     */
     public static double mean(ArrayList<Double> arr) {
         double sum = 0.0;
         for (int i = 0; i < arr.size(); i++) {
@@ -130,6 +135,12 @@ public class AccelerationData {
         return sum / arr.size();
     }
 
+    /**
+     * Calculates the covariance od two arrays (we do not devide by n)
+     * @param arr1
+     * @param arr2
+     * @return Cov(arr2,arr2) =  sum ((xi - mean(x)) * (yi - mean(y)))
+     */
     public static double covar(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         double m1 = mean(arr1);
         double m2 = mean(arr2);
@@ -140,16 +151,27 @@ public class AccelerationData {
         }
 
 
-        return sumsq / arr1.size();
+        return sumsq ;
     }
 
+    /**
+     * The covariance matrix
+     * @param arr1
+     * @param arr2
+     * @return Cov(arr1,arr2)
+     */
     public static Double[][] covarMatrix(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         return new Double[][]{
                 {covar(arr1, arr1), covar(arr1, arr2)},
                 {covar(arr1, arr2), covar(arr2, arr2)}};
     }
 
-
+    /**
+     * calculates the eigenvalues of the covariance matrix, the first is the bigger, the second is the lowest
+     * @param arr1
+     * @param arr2
+     * @return
+     */
     public static Double[] eigenvalues(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[][] cov = covarMatrix(arr1, arr2);
         Double covXX = cov[0][0];
@@ -163,6 +185,13 @@ public class AccelerationData {
                 (((covXX + covYY) - Math.sqrt(delta)) / 2)};
     }
 
+    /**
+     * calculates the eigenvector of the covariance matrix, normed.
+     * this vector also represent the direction if the confidence ellipse
+     * @param arr1
+     * @param arr2
+     * @return
+     */
     public static Double[] mainDirection(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[][] cov = covarMatrix(arr1, arr2);
         Double lambda = eigenvalues(arr1, arr2)[0];
@@ -181,6 +210,12 @@ public class AccelerationData {
         return res;
     }
 
+    /**
+     * calculates the angle of the confidence ellipse
+     * @param arr1
+     * @param arr2
+     * @return
+     */
     public static Double angle(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         Double[] A = mainDirection(arr1, arr2);
         if (A[0] == 0) {
