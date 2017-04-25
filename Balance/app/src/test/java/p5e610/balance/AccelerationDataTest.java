@@ -148,6 +148,6 @@ public class AccelerationDataTest {
         y.add(-1.0);
         y.add(4.0);
         double maxi = 10.0;
-        assertEquals(maxi,AccelerationData.MaximumModulus(x,y),0.001);
+        assertEquals(maxi,AccelerationData.maximumModulus(x,y),0.001);
     }
 }

@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = etEmail.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
 
+<<<<<<< HEAD
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -70,26 +71,27 @@ public class RegisterActivity extends AppCompatActivity {
                         });
 //                HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
 //                try {
+=======
+                HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
+                //try {
+>>>>>>> master
                 //HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
-//                try {
-//                    if(dh.usernameTaken(userName)) {
-//                        Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
-//                    } else {
-//                        dh.addUser(firstName, lastName, userName, email, password, false);
-//                        Intent continueIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-//                        RegisterActivity.this.startActivity(continueIntent);
-//                        finish();
-//                    }
-//                } catch (Exception e) {
-//                    //TODO replace  with different behavior
-//                    e.printStackTrace();
-//                }
-                //         }
-//                } catch(Exception e) {
-//                    //TODO replace  with different behavior
-//                    e.printStackTrace();
-//                }
-//            }
+                try {
+                    if(dh.usernameTaken(userName)) {
+                        Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
+                    } else {
+                        dh.addUser(firstName, lastName, userName, email, password, false);
+                        Intent continueIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        RegisterActivity.this.startActivity(continueIntent);
+                        finish();
+                    }
+                } catch (Exception e) {
+                    //TODO replace  with different behavior
+                    e.printStackTrace();
+                }
+
+
+
 
             }
 
