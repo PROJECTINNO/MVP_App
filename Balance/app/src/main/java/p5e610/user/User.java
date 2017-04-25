@@ -1,4 +1,4 @@
-package p5e610.balance;
+package p5e610.user;
 
 public class User {
 
@@ -6,6 +6,8 @@ public class User {
    private String surname;
    private String username;
    private String email;
+
+    public User(){}
 
     public User(String name, String surname, String username, String email) {
         this.name = name;

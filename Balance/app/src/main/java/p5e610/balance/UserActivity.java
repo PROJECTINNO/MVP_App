@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import p5e610.user.AccountHandler;
+
 public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView h1;
@@ -69,7 +71,6 @@ public class UserActivity extends AppCompatActivity
 
         h1.setText(AccountHandler.getUser().getUsername());
         h2.setText(AccountHandler.getUser().getEmail());
-        etUsername.setText(AccountHandler.getUser().getUsername());
 
 
     }

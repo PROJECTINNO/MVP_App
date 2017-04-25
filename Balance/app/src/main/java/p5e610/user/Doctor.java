@@ -1,7 +1,10 @@
-package p5e610.balance;
+package p5e610.user;
 
 
 import java.util.ArrayList;
+
+import p5e610.user.Patient;
+import p5e610.user.User;
 
 public class Doctor extends User {
     private ArrayList<Patient> PatientList;

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import p5e610.user.Doctor;
+import p5e610.user.Patient;
+
 /**
  * Created by Cecile on 28/02/2017.
  * a test is one collection of data, and all the relevant infirmations that go with it

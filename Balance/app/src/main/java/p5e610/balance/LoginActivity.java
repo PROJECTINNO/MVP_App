@@ -1,11 +1,10 @@
 package p5e610.balance;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +22,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import p5e610.database.FirebaseDatabaseHelper;
+import p5e610.user.AccountHandler;
+import p5e610.user.FirebaseDatabaseHelper;
+import p5e610.user.User;
 
 public class LoginActivity extends AppCompatActivity {
+    private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private EditText etEmail;
+    private EditText etPassword;
+    private Button btnLogin;
+    private TextView registerHere;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -69,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -86,23 +100,49 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final Button btnLogin = (Button) findViewById(R.id.btnLogin);
-        final TextView registerHere = (TextView) findViewById(R.id.tvRegisterHere);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        registerHere = (TextView) findViewById(R.id.tvRegisterHere);
 
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
-                String eMail = etUsername.getText().toString();
+            public void onClick(View v) {
+                final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
+                String eMail = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
                 mAuth.signInWithEmailAndPassword(eMail, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d("LoginProcess", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                                if (task.isSuccessful()) {
+                                    Log.d("LoginProcess", "signInWithEmail:onComplete:" + task.isSuccessful());
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    String uid = user.getUid();
+                                    DatabaseReference childRef = mDatabase.child("users").child(uid);
+
+                                    childRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            User localuser = dataSnapshot.getValue(User.class);
+                                            System.out.println(localuser.getName());
+                                            AccountHandler.setUser(localuser);
+                                            AccountHandler.setLogin(true);
+                                            if (AccountHandler.getUser()!= null){
+                                                LoginActivity.this.startActivity(loginIntent);
+                                                finish();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+
+                                    });
+                                }
 
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
@@ -116,40 +156,11 @@ public class LoginActivity extends AppCompatActivity {
                                 // ...
                             }
                         });
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    // Name, email address, and profile photo Url
-                    String name = user.getDisplayName();
-                    String email = user.getEmail();
-                    Uri photoUrl = user.getPhotoUrl();
-
-                    // The user's ID, unique to the Firebase project. Do NOT use this value to
-                    // authenticate with your backend server, if you have one. Use
-                    // FirebaseUser.getToken() instead.
-                    String uid = user.getUid();
-                }
+            }});
 
 
-//              FirebaseDatabaseHelper dh = FirebaseDatabaseHelper.getInstance();
-                if(FirebaseDatabaseHelper.passwordMatches(etUsername.getText().toString(), etPassword.getText().toString())) {
-                    String firstName = dh.queryUser(etUsername.getText().toString()).getName();
-                    String lastName = dh.queryUser(etUsername.getText().toString()).getSurname();
-                    String userName = dh.queryUser(etUsername.getText().toString()).getUsername();
-                    String eMail = dh.queryUser(etUsername.getText().toString()).getEmail();
-                    User currentUser = new User(firstName, lastName, userName, eMail);
-                    AccountHandler.setUser(currentUser);
-                    AccountHandler.setLogin(true);
 
-                    LoginActivity.this.startActivity(loginIntent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.not_a_user, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        registerHere.setOnClickListener(new View.OnClickListener()
-        {
+        registerHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);

@@ -1,4 +1,4 @@
-package p5e610.balance;
+package p5e610.user;
 
 /**
  * Created by mathiasloh on 28/2/17.

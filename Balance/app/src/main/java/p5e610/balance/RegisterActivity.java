@@ -1,7 +1,6 @@
 package p5e610.balance;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,15 +15,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import p5e610.user.AccountHandler;
+import p5e610.user.User;
 
 //import p5e610.database.HerokuDatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
+
+    private void onAuthSuccess(FirebaseUser fbuser, User user) {
+        // Write new user
+        mDatabase.child("users").child(fbuser.getUid()).setValue(user);
+        // Go to User Activity
+        startActivity(new Intent(RegisterActivity.this, UserActivity.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -49,13 +64,19 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = etPassword.getText().toString();
                 final String email = etEmail.getText().toString();
                 final String PasswordConfirm = etPasswordConfirm.getText().toString();
-
+                final User localuser = new User(firstName, lastName, userName, email);
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Log.d("Register Act", "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                                if (task.isSuccessful()) {
+                                    AccountHandler.setUser(localuser);
+                                    AccountHandler.setLogin(true);
+                                    onAuthSuccess(task.getResult().getUser(), localuser);
+                                }
 
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
@@ -64,47 +85,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                 }
-
-                                // ...
                             }
                         });
-//                HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
-//                try {
-                //HerokuDatabaseHelper dh = HerokuDatabaseHelper.getInstance(getApplicationContext());
-//                try {
-//                    if(dh.usernameTaken(userName)) {
-//                        Toast.makeText(getApplicationContext(), R.string.username_taken, Toast.LENGTH_LONG).show();
-//                    } else {
-//                        dh.addUser(firstName, lastName, userName, email, password, false);
-//                        Intent continueIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-//                        RegisterActivity.this.startActivity(continueIntent);
-//                        finish();
-//                    }
-//                } catch (Exception e) {
-//                    //TODO replace  with different behavior
-//                    e.printStackTrace();
-//                }
-                //         }
-//                } catch(Exception e) {
-//                    //TODO replace  with different behavior
-//                    e.printStackTrace();
-//                }
-//            }
-
             }
-
-            ;
-
-//        btnReturn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                Intent returnIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-//                RegisterActivity.this.startActivity(returnIntent);
-//                finish();
-//            }
-//
-//            });
-
         });
     }
 }

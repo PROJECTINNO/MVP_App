@@ -1,7 +1,9 @@
-package p5e610.balance;
+package p5e610.user;
 
 
 import java.util.ArrayList;
+
+import p5e610.balance.AccelerationData;
 
 public class Patient extends User {
     private Doctor doctor;
