@@ -276,15 +276,15 @@ public class AccelerationData {
                 counter[0] += 1;
             }
             if (abs(Y.get(i)) < 0.01 && c==true) {
-                counter[0] += 1;
+                counter[1] += 1;
                 c=false;
             }
             if (abs(Y.get(i)) >= 0.01 && c==false) {
-                counter[0] += 1;
+                counter[1] += 1;
                 c = true;
             }
             if (abs(Y.get(i)) >= 0.01 && c==true && Y.get(i)*Y.get(i-1)<0) {
-                counter[0] += 1;
+                counter[1] += 1;
             }
         }
         return counter;
