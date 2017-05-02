@@ -5,7 +5,7 @@
     tools:context="p5e610.balance.SplashActivity"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#32C5F4">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="match_parent"
