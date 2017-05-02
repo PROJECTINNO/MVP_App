@@ -1,5 +1,6 @@
 package p5e610.balance;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -69,7 +70,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     NotificationManager notificationManager;
     private NotificationCompat.Builder mBuilder;
     private SensorManager sensorManager;
-    private Button btnStart, btnAcceleration, btnUpload, btnStop, btnData;
+    private Button btnStart, btnAcceleration, btnUpload, btnStop, btnData, btnReturn;
     private TextView mTextView;
     private EditText mTextField;
     private EditText mPrepField;
@@ -119,11 +120,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         mTextField = (EditText) findViewById(R.id.editText);
         dataField = (TextView) findViewById(R.id.dataText);
         mTextField.setEnabled(false);
+        btnReturn = (Button) findViewById(R.id.btnReturn);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnAcceleration = (Button) findViewById(R.id.btnAcceleration);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         btnData = (Button) findViewById(R.id.btnData);
+        btnReturn.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         btnAcceleration.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
@@ -136,6 +139,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             btnUpload.setEnabled(false);
         }
         layout.removeAllViews();
+        layout.addView(btnReturn);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -238,6 +242,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         switch (v.getId()) {
             case R.id.btnStart:
                 layout.removeAllViews();
+                layout.addView(btnReturn);
                 layout.addView(mTextField);
                 layout.addView(btnStop);
                 btnStart.setEnabled(false);
@@ -246,6 +251,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStop.setEnabled(false);
                 btnData.setEnabled(true);
+                btnReturn.setEnabled(false);
                 sensorData = new AccelerationData();
                 accx = new ArrayList<Double>();
                 accy = new ArrayList<Double>();
@@ -309,8 +315,10 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             case R.id.btnStop:
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
+                layout.addView(btnReturn);
                 btnAcceleration.setEnabled(false);
-                btnData.setEnabled(false);
+                btnData.setEnabled(true);
+                btnReturn.setEnabled(true);
                 seeGraph();
 
                 break;
@@ -319,17 +327,21 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnAcceleration.setEnabled(false);
                 btnData.setEnabled(true);
                 btnUpload.setEnabled(true);
+                btnReturn.setEnabled(true);
                 started = false;
                 sensorManager.unregisterListener(this);
                 layout.removeAllViews();
+                layout.addView(btnReturn);
                 seeGraph();
 
                 break;
             case R.id.btnUpload:
+                layout.addView(btnReturn);
                 btnStart.setEnabled(true);
                 btnAcceleration.setEnabled(true);
                 btnData.setEnabled(true);
                 btnUpload.setEnabled(false);
+                btnReturn.setEnabled(true);
                 started = false;
                 sensorManager.unregisterListener(this);
                 try {
@@ -340,9 +352,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 break;
             case R.id.btnData:
                 layout.removeAllViews();
+                layout.addView(btnReturn);
                 graph.removeAllSeries();
                 btnStart.setEnabled(true);
                 btnAcceleration.setEnabled(true);
+                btnReturn.setEnabled(true);
                 btnData.setEnabled(false);
                 btnUpload.setEnabled(false);
                 started = false;
@@ -352,6 +366,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 layout.addView(dataField);
 
                 break;
+
+            case R.id.btnReturn:
+                Intent registerIntent = new Intent(TestActivity.this, UserActivity.class);
+                TestActivity.this.startActivity(registerIntent);
+                finish();
             default:
                 break;
         }
