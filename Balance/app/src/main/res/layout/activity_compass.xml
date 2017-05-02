@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff" >
+    android:background="@color/colorPrimary" >
 
     <Button
         android:text="Cancel"
@@ -55,13 +55,15 @@
 
     <ImageView
         android:id="@+id/imageViewCompass"
-        android:layout_width="match_parent"
-        android:src="@drawable/img_compass"
+        android:layout_width="275dp"
+        android:background="@drawable/compass_bg"
+        android:src="@drawable/image_compass"
         android:layout_height="275dp"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="27dp"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp"
         android:layout_above="@+id/btnContinue"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tvHeading"
