@@ -1,5 +1,6 @@
 package p5e610.balance;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -63,6 +64,7 @@ import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
 import p5e610.graphview.series.Series;
 import p5e610.balance.AccelerationData.Coordinate;
+import p5e610.user.AccountHandler;
 
 import static java.util.Collections.max;
 
@@ -251,7 +253,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStop.setEnabled(false);
                 btnData.setEnabled(true);
-                btnReturn.setEnabled(false);
+                btnReturn.setEnabled(true);
                 sensorData = new AccelerationData();
                 accx = new ArrayList<Double>();
                 accy = new ArrayList<Double>();
@@ -367,6 +369,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 break;
 
             case R.id.btnReturn:
+                AccountHandler.setReturnFromTest(true);
                 Intent registerIntent = new Intent(TestActivity.this, UserActivity.class);
                 TestActivity.this.startActivity(registerIntent);
                 finish();

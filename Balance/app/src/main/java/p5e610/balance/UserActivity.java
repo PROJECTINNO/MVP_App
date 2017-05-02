@@ -72,6 +72,11 @@ public class UserActivity extends AppCompatActivity
         h1.setText(AccountHandler.getUser().getUsername());
         h2.setText(AccountHandler.getUser().getEmail());
 
+        if (AccountHandler.getReturnFromTest()){
+            showTests();
+            AccountHandler.setReturnFromTest(false);
+        }
+
 
     }
 
