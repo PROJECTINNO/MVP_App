@@ -1,16 +1,12 @@
 package p5e610.balance;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
@@ -18,23 +14,16 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
-import org.achartengine.ChartFactory;
+
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
@@ -59,11 +48,8 @@ import android.widget.TextView;
 import com.opencsv.CSVWriter;
 
 import p5e610.graphview.GraphView;
-import p5e610.graphview.LegendRenderer;
 import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
-import p5e610.graphview.series.Series;
-import p5e610.balance.AccelerationData.Coordinate;
 import p5e610.user.AccountHandler;
 
 import static java.util.Collections.max;
@@ -369,7 +355,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 break;
 
             case R.id.btnReturn:
-                AccountHandler.setReturnFromTest(true);
+                AccountHandler.setReturnUserActivityFromTestActivity(true);
                 Intent registerIntent = new Intent(TestActivity.this, UserActivity.class);
                 TestActivity.this.startActivity(registerIntent);
                 finish();

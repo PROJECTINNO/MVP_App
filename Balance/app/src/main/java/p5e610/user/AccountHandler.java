@@ -7,12 +7,12 @@ package p5e610.user;
 public final class AccountHandler {
     static User user;
     static Boolean login;
-    static Boolean returnFromTest = false;
+    static Boolean returnUserActivityFromTestActivity = false;
 
     private AccountHandler(){
         user = null;
         login = false;
-        returnFromTest = false;
+        returnUserActivityFromTestActivity = false;
     }
 
     public static void setLogin(Boolean bool){
@@ -23,7 +23,7 @@ public final class AccountHandler {
         return login;
     }
 
-    public static Boolean getReturnFromTest() {return returnFromTest;}
+    public static Boolean getReturnUserActivityFromTestActivity() {return returnUserActivityFromTestActivity;}
 
     public static User getUser() {
         return user;
@@ -33,5 +33,6 @@ public final class AccountHandler {
         user = newUser;
     }
 
-    public static void setReturnFromTest(Boolean bool){returnFromTest = bool;}
+    public static void setReturnUserActivityFromTestActivity(Boolean bool){
+        returnUserActivityFromTestActivity = bool;}
 }
