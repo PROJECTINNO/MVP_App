@@ -297,8 +297,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                         mTextField.setText("DONE!");
                         btnStop.setVisibility(View.VISIBLE);
                         btnStop.setEnabled(true);
-                        btnStart.setEnabled(true);
-                        btnUpload.setEnabled(true);
+                         btnUpload.setEnabled(true);
                         btnAcceleration.setEnabled(true);
                         btnData.setEnabled(true);
                         new Timer().schedule(new TimerTask() {

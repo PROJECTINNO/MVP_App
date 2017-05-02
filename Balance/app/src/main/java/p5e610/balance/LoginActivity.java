@@ -111,7 +111,10 @@ public class LoginActivity extends AppCompatActivity {
                 final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
                 String eMail = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
-
+                if (eMail.matches("") || password.matches("")) {
+                    Toast.makeText(LoginActivity.this, "Authentication failed. Please try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mAuth.signInWithEmailAndPassword(eMail, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -149,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
                                     Log.w("LoginProcess", "signInWithEmail", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.makeText(LoginActivity.this, "Authentication failed. Please try again",
                                             Toast.LENGTH_SHORT).show();
                                 }
 
