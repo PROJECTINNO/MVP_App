@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,10 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d("Logged in successfully", "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d("LoginActivity", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d("Logged out successfully", "onAuthStateChanged:signed_out");
+                    Log.d("LoginActivity", "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -108,15 +109,19 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
                 String eMail = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
-
+                if (eMail.matches("") || password.matches("")) {
+                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                    Toast.makeText(LoginActivity.this, "Authentication failed. Please try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mAuth.signInWithEmailAndPassword(eMail, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
                                 if (task.isSuccessful()) {
                                     Log.d("LoginProcess", "signInWithEmail:onComplete:" + task.isSuccessful());
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -131,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                                             AccountHandler.setUser(localuser);
                                             AccountHandler.setLogin(true);
                                             if (AccountHandler.getUser()!= null){
+                                                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
                                                 LoginActivity.this.startActivity(loginIntent);
                                                 finish();
                                             }
@@ -148,8 +154,9 @@ public class LoginActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
+                                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                                     Log.w("LoginProcess", "signInWithEmail", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.makeText(LoginActivity.this, "Authentication failed. Please try again",
                                             Toast.LENGTH_SHORT).show();
                                 }
 

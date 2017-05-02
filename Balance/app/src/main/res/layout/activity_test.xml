@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Acceleration"
+            android:text="Graph"
             android:backgroundTint="@android:color/transparent" />
         <Button
             android:id="@+id/btnUpload"
@@ -91,7 +91,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_above="@+id/btnReturn" />
 
         <EditText
             android:visibility="invisible"
@@ -116,6 +116,19 @@
             android:textSize="10pt"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true" />
+
+        <Button
+            android:text="Return"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/btnReturn"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/transparent" />
 
     </RelativeLayout>
 </RelativeLayout>
