@@ -473,19 +473,19 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         //Setting the scale ---------------
         //Should be changed regarding to the mean data : what is the appropriate scale
         // for a good person and what is it for an unbalanced one ?
-        if(maxx < 3.0 && minx > -3.0) {
-            graph.getViewport().setMinX(-3.0);
-            graph.getViewport().setMaxX(3.0);}
+        if(maxx < 2.0 && minx > -2.0) {
+            graph.getViewport().setMinX(-2.0);
+            graph.getViewport().setMaxX(2.0);}
         else {
-            graph.getViewport().setMinX(-5.0);
-            graph.getViewport().setMaxX(5.0);}
+            graph.getViewport().setMinX(-4.0);
+            graph.getViewport().setMaxX(4.0);}
 
-        if(maxy < 5.0 && miny > -5.0) {
-            graph.getViewport().setMinY(-5.0);
-            graph.getViewport().setMaxY(5.0);}
+        if(maxy < 3.5 && miny > -3.5) {
+            graph.getViewport().setMinY(-3.5);
+            graph.getViewport().setMaxY(3.5);}
         else {
-            graph.getViewport().setMinY(-10.0);
-            graph.getViewport().setMaxY(10.0);}
+            graph.getViewport().setMinY(-6.0);
+            graph.getViewport().setMaxY(6.0);}
 
         //---------------Setting the scale
 
