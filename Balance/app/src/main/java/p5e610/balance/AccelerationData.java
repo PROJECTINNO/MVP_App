@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
 /**
@@ -261,12 +262,28 @@ public class AccelerationData {
 
     public static Double[] zeros(ArrayList<Double> X, ArrayList<Double> Y) {
         Double[] counter = {0.0, 0.0};
-
-        for (int i = 0; i < X.size() - 1; i++) {
-            if (X.get(i) * X.get(i + 1) < 0) {
+        Boolean c=true;
+        for (int i = 1; i < X.size(); i++) {
+            if (abs(X.get(i)) < 0.01 && c==true) {
+                counter[0] += 1;
+                c=false;
+            }
+            if (abs(X.get(i)) >= 0.01 && c==false) {
+                counter[0] += 1;
+                c = true;
+            }
+            if (abs(X.get(i)) >= 0.01 && c==true && X.get(i)*X.get(i-1)<0) {
                 counter[0] += 1;
             }
-            if (Y.get(i) * Y.get(i + 1) < 0) {
+            if (abs(Y.get(i)) < 0.01 && c==true) {
+                counter[1] += 1;
+                c=false;
+            }
+            if (abs(Y.get(i)) >= 0.01 && c==false) {
+                counter[1] += 1;
+                c = true;
+            }
+            if (abs(Y.get(i)) >= 0.01 && c==true && Y.get(i)*Y.get(i-1)<0) {
                 counter[1] += 1;
             }
         }
