@@ -56,8 +56,8 @@
     <ImageView
         android:id="@+id/imageViewCompass"
         android:layout_width="275dp"
-        android:background="@drawable/compass_bg"
-        android:src="@drawable/image_compass"
+        android:background="@drawable/compass_bg_red"
+        android:src="@drawable/compass"
         android:layout_height="275dp"
         android:layout_marginBottom="27dp"
         android:paddingBottom="30dp"

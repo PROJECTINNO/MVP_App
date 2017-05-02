@@ -3,12 +3,14 @@ package p5e610.balance;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +44,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnContinue = (Button) findViewById(R.id.btnContinue);
+        btnContinue.setEnabled(false);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +109,16 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
             String result = String.format("%.2f", azimut);
             tvHeading.setText("North: " + result + " degrees");
             image.setRotation(currentDegree);
+            //change background color of the compass
+            if (Math.abs(currentDegree) < 2.0){
+
+                image.setBackgroundResource(R.drawable.compass_bg_green);
+                btnContinue.setEnabled(true);
+            }
+            else {
+                image.setBackgroundResource(R.drawable.compass_bg_red);
+                btnContinue.setEnabled(false);
+            }
 //            RotateAnimation ra = new RotateAnimation(
 //                    currentDegree,
 //                    -azimut,
