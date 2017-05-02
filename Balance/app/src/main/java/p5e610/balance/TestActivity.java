@@ -512,6 +512,9 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     }
 
     private String computeData(){
+        accx = sensorData.getAccX();
+        accy = sensorData.getAccY();
+
         double x0 = AccelerationData.mean(accx);
         double y0 = AccelerationData.mean(accy);
         double theta = AccelerationData.angle(accx,accy);
