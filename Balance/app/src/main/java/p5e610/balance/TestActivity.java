@@ -46,6 +46,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +63,7 @@ import p5e610.graphview.GraphView;
 import p5e610.graphview.series.DataPoint;
 import p5e610.graphview.series.LineGraphSeries;
 import p5e610.user.AccountHandler;
+import p5e610.user.Upload;
 
 import static java.util.Collections.max;
 
@@ -100,8 +102,23 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     };
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
 
-
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +153,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         btnAcceleration.setEnabled(false);
         btnData.setEnabled(false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (sensorData == null || sensorData.size() == 0) {
             btnUpload.setEnabled(false);
         }
@@ -573,8 +591,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
 
 
-
-
 //        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 //        Date date = new Date();
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy-HH:mm:ss");
@@ -613,7 +629,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         writer.close();
         // --------- Setup Writing ------------------------------//
 
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         Uri file = Uri.fromFile(f);
         StorageReference riversRef = mStorageRef.child(uid +File.separator+ fileName);
@@ -624,6 +639,10 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                        Upload upload = new Upload(downloadUrl.toString());
+                        String uploadId = mDatabase.child("users").child(user.getUid()).child("results").push().getKey();
+                        mDatabase.child("results").child("users").child(user.getUid()).child(uploadId).setValue(upload);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -634,6 +653,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     }
                 });
 
-
+        System.out.println("COMES HERE BUT WHERE DOES IT GO AFTER?");
     }
 }

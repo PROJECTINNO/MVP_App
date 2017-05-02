@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 import p5e610.user.AccountHandler;
@@ -35,9 +37,13 @@ public class UserActivity extends AppCompatActivity
     private TextView etUsername;
     ArrayAdapter<String> adapter;
     ArrayList<String> listTests = new ArrayList<String>();
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user);
@@ -165,6 +171,7 @@ public class UserActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int whichButton) {
                         AccountHandler.setLogin(false);
                         AccountHandler.setUser(null);
+                        FirebaseAuth.getInstance().signOut();
                         Intent logoutIntent = new Intent(UserActivity.this, LoginActivity.class);
                         UserActivity.this.startActivity(logoutIntent);
                         finish();}})

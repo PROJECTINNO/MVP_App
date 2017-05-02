@@ -89,8 +89,37 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    Log.d("LoginActivity", "onAuthStateChanged:signed_in:" + user.getUid());
+//                     User is signed in
+                    String uid = user.getUid();
+                    DatabaseReference childRef = mDatabase.child("users").child(uid);
+                    childRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
+                            User localuser = dataSnapshot.getValue(User.class);
+                            System.out.println(localuser.getName());
+                            AccountHandler.setUser(localuser);
+                            AccountHandler.setLogin(true);
+                            if (AccountHandler.getUser()!= null){
+                                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                LoginActivity.this.startActivity(loginIntent);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
+//                    Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
+//                    Log.d("LoginActivity", "onAuthStateChanged:signed_in:" + user.getUid());
+//                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+//                    loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    LoginActivity.this.startActivity(loginIntent);
+//                    finish();
                 } else {
                     // User is signed out
                     Log.d("LoginActivity", "onAuthStateChanged:signed_out");
@@ -110,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
-                final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
+//                final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
                 String eMail = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
                 if (eMail.matches("") || password.matches("")) {
@@ -127,12 +156,12 @@ public class LoginActivity extends AppCompatActivity {
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                     String uid = user.getUid();
                                     DatabaseReference childRef = mDatabase.child("users").child(uid);
+                                    final Intent loginIntent = new Intent(LoginActivity.this, UserActivity.class);
 
                                     childRef.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User localuser = dataSnapshot.getValue(User.class);
-                                            System.out.println(localuser.getName());
                                             AccountHandler.setUser(localuser);
                                             AccountHandler.setLogin(true);
                                             if (AccountHandler.getUser()!= null){
