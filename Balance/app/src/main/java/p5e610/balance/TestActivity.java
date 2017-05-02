@@ -2,6 +2,7 @@ package p5e610.balance;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.Manifest;
@@ -16,6 +17,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 
 import org.achartengine.GraphicalView;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,6 +47,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.opencsv.CSVWriter;
 
 import p5e610.graphview.GraphView;
@@ -87,7 +98,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
 
 
     @Override
@@ -100,7 +112,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorData = new AccelerationData();
         verifyStoragePermissions(this);
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
         graph = (GraphView) findViewById(R.id.graph);
@@ -123,6 +135,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         btnData.setOnClickListener(this);
         btnAcceleration.setEnabled(false);
         btnData.setEnabled(false);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         if (sensorData == null || sensorData.size() == 0) {
             btnUpload.setEnabled(false);
         }
@@ -323,7 +336,6 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
                 break;
             case R.id.btnUpload:
-                layout.addView(btnReturn);
                 btnStart.setEnabled(true);
                 btnAcceleration.setEnabled(true);
                 btnData.setEnabled(true);
@@ -531,50 +543,97 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
     }
 
+    private void clearCache(){
+        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String folderPath = baseDir + File.pathSeparator + "BalanceApp";
+        File dir = new File(folderPath);
+        try {
+            FileUtils.deleteDirectory(dir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void saveDataToCSV() throws IOException {
         // --------- Reinitialize smoothing ---------------------//
         accx = sensorData.getAccX();
         accy = sensorData.getAccY();
         accz = sensorData.getAccZ();
+        ArrayList<Long> timestamp = sensorData.getTimestamp();
         // --------- End reinitialize ---------------------------//
 
+
+
         // --------- Setup Writing ------------------------------//
-        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy-HH:mm:ss");
         String fileName = "AccelData-" + dateFormat.format(date) + ".csv";
+        File f = new File(this.getFilesDir(), fileName);
+        CSVWriter writer = new CSVWriter(new FileWriter(f));
 
-//        String folder_name = "Balance Data";
-//        File folder = new File(baseDir, folder_name);
 
-        String filePath = baseDir + File.separator + fileName;
-        File f = new File(filePath);
-        CSVWriter writer;
 
-        if (f.exists() && !f.isDirectory()){
-            f.delete();
-            f = new File(filePath);
-            writer = new CSVWriter(new FileWriter(filePath));
-        } else {
-            writer = new CSVWriter(new FileWriter(filePath));
-        }
 
-        String[] data = "X,Y,Z, SMOOTHX, SMOOTHY, SMOOTHZ, t".split(",");
+
+//        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+//        Date date = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy-HH:mm:ss");
+//        String fileName = "AccelData-" + dateFormat.format(date) + ".csv";
+//
+////        String folder_name = "Balance Data";
+////        File folder = new File(baseDir, folder_name);
+//
+//        String filePath = baseDir + File.pathSeparator + "BalanceApp" + File.separator + fileName;
+//        File f = new File(filePath);
+//        CSVWriter writer;
+//
+//        if (f.exists() && !f.isDirectory()){
+//            f.delete();
+//            f = new File(filePath);
+//            writer = new CSVWriter(new FileWriter(filePath));
+//        } else {
+//            writer = new CSVWriter(new FileWriter(filePath));
+//        }
+
+        String[] data = "X,Y,Z,TIME".split(",");
         writer.writeNext(data);
 
-        for (int i = 0; i < sensorData.size(); i++){
+//        String[] data = "X,Y,Z, SMOOTHX, SMOOTHY, SMOOTHZ, t".split(",");
+//        writer.writeNext(data);
+
+        for (int i = 0; i < accx.size(); i++){
             String[] entry = {
-                    Double.toString(sensorData.get(i).getX()),
-                    Double.toString(sensorData.get(i).getY()),
-                    Double.toString(sensorData.get(i).getZ()),
                     Double.toString(accx.get(i)),
                     Double.toString(accy.get(i)),
                     Double.toString(accz.get(i)),
-                    Double.toString(sensorData.get(i).getTimestamp() - sensorData.get(0).getTimestamp())};
+                    Double.toString(timestamp.get(i) - timestamp.get(0))};
             writer.writeNext(entry);
         }
 
         writer.close();
         // --------- Setup Writing ------------------------------//
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        Uri file = Uri.fromFile(f);
+        StorageReference riversRef = mStorageRef.child(uid +File.separator+ fileName);
+
+        riversRef.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+
+
     }
 }

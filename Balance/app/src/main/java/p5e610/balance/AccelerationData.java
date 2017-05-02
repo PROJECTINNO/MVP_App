@@ -104,6 +104,14 @@ public class AccelerationData {
         return accz;
     }
 
+    public ArrayList<Long> getTimestamp(){
+        ArrayList<Long> timestamp = new ArrayList<>();
+        for (int i = 0; i < this.coordinates.size(); i++){
+            timestamp.add(this.get(i).getTimestamp());
+        }
+        return timestamp;
+    }
+
     public void add(Coordinate data) {
         coordinates.add(data);
     }
