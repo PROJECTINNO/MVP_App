@@ -1,9 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="p5e610.balance.MainActivity"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-</LinearLayout>
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:id="@+id/bAquarius"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_marginLeft="5dp"
+        android:text="Aquarius"/>
+    <Button
+        android:id="@+id/bPisces"
+        android:layout_toRightOf="@+id/bAquarius"
+        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="Pisces"/>
+    <Button
+        android:id="@+id/bAries"
+        android:layout_toRightOf="@+id/bPisces"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_marginRight="5dp"
+        android:text="Aries"/>
+
+    <Button
+        android:id="@+id/bTaurs"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Taurs"
+        android:layout_below="@+id/bAquarius"
+        android:layout_alignLeft="@+id/bAquarius"
+        android:layout_alignStart="@+id/bAquarius" />
+    <Button
+        android:id="@+id/bGemini"
+        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:text="Gemini"
+        android:layout_alignTop="@+id/bTaurs"
+        android:layout_alignRight="@+id/bPisces"
+        android:layout_alignEnd="@+id/bPisces" />
+    <Button
+        android:id="@+id/bCancer"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Cancer"
+        android:layout_below="@+id/bAries"
+        android:layout_alignRight="@+id/bAries"
+        android:layout_alignEnd="@+id/bAries" />
+
+    <Button
+        android:id="@+id/bLeo"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Leo"
+        android:layout_below="@+id/bTaurs"
+        android:layout_alignLeft="@+id/bTaurs"
+        android:layout_alignStart="@+id/bTaurs"/>
+
+    <Button
+        android:id="@+id/bVirgo"
+        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:text="Virgo"
+        android:layout_alignTop="@+id/bLeo"
+        android:layout_alignLeft="@+id/bGemini"
+        android:layout_alignStart="@+id/bGemini" />
+
+    <Button
+        android:id="@+id/bLibra"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Libra"
+        android:layout_below="@+id/bCancer"
+        android:layout_alignRight="@+id/bCancer"
+        android:layout_alignEnd="@+id/bCancer"/>
+
+    <Button
+        android:id="@+id/bScorpio"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Scorpio"
+        android:layout_below="@+id/bLeo"
+        android:layout_alignLeft="@+id/bLeo"
+        android:layout_alignStart="@+id/bLeo" />
+
+    <Button
+        android:id="@+id/bSagittarius"
+        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:text="Sagittarius"
+        android:layout_below="@+id/bVirgo"
+        android:layout_toLeftOf="@+id/bAries"
+        android:layout_toStartOf="@+id/bAries" />
+
+    <Button
+        android:id="@+id/bCapricorn"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:text="Capricorn"
+        android:layout_below="@+id/bLibra"
+        android:layout_alignRight="@+id/bLibra"
+        android:layout_alignEnd="@+id/bLibra"/>
+</RelativeLayout>
