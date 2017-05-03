@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final EditText etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
+//        final EditText etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
         final Button btnRegister = (Button) findViewById(R.id.btnRegister);
         final Button btnReturn = (Button) findViewById(R.id.btnCancel);
 
@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String userName = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
                 final String email = etEmail.getText().toString();
-                final String PasswordConfirm = etPasswordConfirm.getText().toString();
+//                final String PasswordConfirm = etPasswordConfirm.getText().toString();
                 final User localuser = new User(firstName, lastName, userName, email);
 
                 mAuth.createUserWithEmailAndPassword(email, password)
