@@ -544,7 +544,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         double b = Math.sqrt(5.991)*Math.sqrt(lambda1/(accx.size()-1));
         double rangeX = AccelerationData.range(accx);
         double rangeY = AccelerationData.range(accy);
-        Double[] zeros = AccelerationData.zeros(accx,accy);
+        Double[] zeros = {AccelerationData.zeros(accx),AccelerationData.zeros(accy)};
         double modulus = AccelerationData.maximumModulus(accx,accy);
         double per = AccelerationData.percentage(accx,accy,a,b,theta,1.0);
 
