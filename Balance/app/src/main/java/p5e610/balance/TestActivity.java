@@ -278,13 +278,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
                 graph.removeAllSeries();
                 Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-                sensorManager.registerListener(this, accel, 30000);
+                sensorManager.registerListener(this, accel, 40000);
 
                 Sensor grav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-                sensorManager.registerListener(this, grav, 30000);
+                sensorManager.registerListener(this, grav, 40000);
 
                 Sensor mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-                sensorManager.registerListener(this, mag, 30000);
+                sensorManager.registerListener(this, mag, 40000);
 
                 // ----------- FUTURE WORK -------------- //
 //                layout.addView(mTextView);
