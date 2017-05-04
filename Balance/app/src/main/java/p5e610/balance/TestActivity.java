@@ -278,13 +278,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
                 graph.removeAllSeries();
                 Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-                sensorManager.registerListener(this, accel, 40000);
+                sensorManager.registerListener(this, accel, 30000);
 
                 Sensor grav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-                sensorManager.registerListener(this, grav, 40000);
+                sensorManager.registerListener(this, grav, 30000);
 
                 Sensor mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-                sensorManager.registerListener(this, mag, 40000);
+                sensorManager.registerListener(this, mag, 30000);
 
                 // ----------- FUTURE WORK -------------- //
 //                layout.addView(mTextView);
@@ -292,7 +292,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 // ----------- FUTURE WORK -------------- //
 
 
-                new CountDownTimer(6000, 1000) {
+                new CountDownTimer(21000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         started = true;
@@ -337,6 +337,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 btnAcceleration.setEnabled(false);
                 btnData.setEnabled(true);
                 btnReturn.setEnabled(true);
+                btnStart.setEnabled(true);
                 seeGraph();
 
                 break;
