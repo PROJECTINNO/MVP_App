@@ -639,7 +639,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                         Upload upload = new Upload(downloadUrl.toString());
                         String uploadId = mDatabase.child("users").child(user.getUid()).child("results").push().getKey();
