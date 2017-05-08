@@ -37,6 +37,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +45,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +78,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     private EditText mTextField;
     private EditText mPrepField;
     private TextView dataField;
+    private ProgressBar mProgressbar;
     private boolean started = false;
     private RelativeLayout layout;
     private AudioManager audioManager;
@@ -105,6 +108,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
+
+    int duration = 21000;
 
 //    @Override
 //    public void onStart() {
@@ -152,6 +157,12 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         btnData.setOnClickListener(this);
         btnAcceleration.setEnabled(false);
         btnData.setEnabled(false);
+
+        mProgressbar = (ProgressBar) findViewById(R.id.progressbar);
+        mProgressbar.setProgress(0);
+        mProgressbar.setMax(duration/1000);
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (sensorData == null || sensorData.size() == 0) {
@@ -159,6 +170,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         }
         layout.removeAllViews();
         layout.addView(btnReturn);
+
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -256,6 +268,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         return textView;
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -264,6 +277,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 layout.addView(btnReturn);
                 layout.addView(mTextField);
                 layout.addView(btnStop);
+                layout.addView(mProgressbar);
                 btnStart.setEnabled(false);
                 btnAcceleration.setEnabled(true);
                 btnUpload.setEnabled(true);
@@ -292,7 +306,8 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                 // ----------- FUTURE WORK -------------- //
 
 
-                new CountDownTimer(21000, 1000) {
+
+                new CountDownTimer(duration, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         started = true;
@@ -301,8 +316,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                         btnData.setEnabled(false);
                         mTextField.playSoundEffect(SoundEffectConstants.CLICK);
                         mTextField.setVisibility(View.VISIBLE);
-                        mTextField.setText("TIME REMAINING: " + millisUntilFinished / 1000 + "s");
-                        mTextField.setTextSize(24);
+                        mProgressbar.setVisibility(View.VISIBLE);
+                        mTextField.setText(""+millisUntilFinished / 1000);
+                        mTextField.setTextSize(30);
+
+                        mProgressbar.setProgress((int) millisUntilFinished / 1000 );
                     }
 
                     public void onFinish() {
@@ -319,6 +337,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                          btnUpload.setEnabled(true);
                         btnAcceleration.setEnabled(true);
                         btnData.setEnabled(true);
+                        mProgressbar.setProgress(0);
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -639,11 +658,11 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        /*Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                         Upload upload = new Upload(downloadUrl.toString());
                         String uploadId = mDatabase.child("users").child(user.getUid()).child("results").push().getKey();
-                        mDatabase.child("results").child("users").child(user.getUid()).child(uploadId).setValue(upload);
+                        mDatabase.child("results").child("users").child(user.getUid()).child(uploadId).setValue(upload);*/
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
