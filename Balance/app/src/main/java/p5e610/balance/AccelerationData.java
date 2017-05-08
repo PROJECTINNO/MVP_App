@@ -268,31 +268,21 @@ public class AccelerationData {
         return inEllipseCount / X.size();
     }
 
-    public static Double[] zeros(ArrayList<Double> X, ArrayList<Double> Y) {
-        Double[] counter = {0.0, 0.0};
+    public static double zeros(ArrayList<Double> X) {
+        double counter = 0.0;
         Boolean c=true;
         for (int i = 1; i < X.size(); i++) {
             if (abs(X.get(i)) < 0.01 && c==true) {
-                counter[0] += 1;
+                counter += 1;
                 c=false;
             }
             if (abs(X.get(i)) >= 0.01 && c==false) {
-                counter[0] += 1;
                 c = true;
             }
-            if (abs(X.get(i)) >= 0.01 && c==true && X.get(i)*X.get(i-1)<0) {
-                counter[0] += 1;
-            }
-            if (abs(Y.get(i)) < 0.01 && c==true) {
-                counter[1] += 1;
-                c=false;
-            }
-            if (abs(Y.get(i)) >= 0.01 && c==false) {
-                counter[1] += 1;
-                c = true;
-            }
-            if (abs(Y.get(i)) >= 0.01 && c==true && Y.get(i)*Y.get(i-1)<0) {
-                counter[1] += 1;
+            else {
+                if (abs(X.get(i)) >= 0.01 && c == true && X.get(i) * X.get(i - 1) < 0) {
+                    counter += 1;
+                }
             }
         }
         return counter;

@@ -563,7 +563,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
         double b = Math.sqrt(5.991)*Math.sqrt(lambda1/(accx.size()-1));
         double rangeX = AccelerationData.range(accx);
         double rangeY = AccelerationData.range(accy);
-        Double[] zeros = AccelerationData.zeros(accx,accy);
+        Double[] zeros = {AccelerationData.zeros(accx),AccelerationData.zeros(accy)};
         double modulus = AccelerationData.maximumModulus(accx,accy);
         double per = AccelerationData.percentage(accx,accy,a,b,theta,1.0);
 
@@ -658,11 +658,15 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
-                        /*Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                        @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
                         Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                         Upload upload = new Upload(downloadUrl.toString());
                         String uploadId = mDatabase.child("users").child(user.getUid()).child("results").push().getKey();
-                        mDatabase.child("results").child("users").child(user.getUid()).child(uploadId).setValue(upload);*/
+                        mDatabase.child("results").child("users").child(user.getUid()).child(uploadId).setValue(upload);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -23,10 +23,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import p5e610.user.AccountHandler;
+import p5e610.user.Upload;
 
 public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,10 +44,13 @@ public class UserActivity extends AppCompatActivity
     private ListView listView;
     private TextView etUsername;
     ArrayAdapter<String> adapter;
+    ArrayAdapter<Upload> adapter1;
     ArrayList<String> listTests = new ArrayList<String>();
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    private DatabaseReference mDatabase;
+    private FirebaseUser user;
+    private List<String> uploads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +93,6 @@ public class UserActivity extends AppCompatActivity
             showTests();
             AccountHandler.setReturnUserActivityFromTestActivity(false);
         }
-
-
     }
 
     @Override
@@ -133,7 +142,7 @@ public class UserActivity extends AppCompatActivity
         } else if (id == R.id.nav_test) {
             showTests();
         } else if (id == R.id.nav_results) {
-
+            showResults();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -180,6 +189,33 @@ public class UserActivity extends AppCompatActivity
     }
 
     public void showResults(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uploads = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, uploads);
+        listView.setAdapter(adapter);
 
+        DatabaseReference currDatabase = mDatabase.child("results").child("users").child(user.getUid());
+        currDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //dismissing the progress dialog
+                //iterating through all the values in database
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Upload upload = postSnapshot.getValue(Upload.class);
+                    System.out.println(upload.getUrl());
+                    uploads.add(upload.getUrl());
+                }
+                //creating adapter
+                //adding adapter to recyclerview
+                listView.setAdapter(adapter);
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }
