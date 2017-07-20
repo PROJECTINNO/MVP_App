@@ -292,13 +292,13 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
 
                 graph.removeAllSeries();
                 Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-                sensorManager.registerListener(this, accel, 40000);
+                sensorManager.registerListener(this, accel, 10000);
 
                 Sensor grav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-                sensorManager.registerListener(this, grav, 40000);
+                sensorManager.registerListener(this, grav, 10000);
 
                 Sensor mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-                sensorManager.registerListener(this, mag, 40000);
+                sensorManager.registerListener(this, mag, 10000);
 
                 // ----------- FUTURE WORK -------------- //
 //                layout.addView(mTextView);
@@ -659,7 +659,7 @@ public class TestActivity extends Activity implements SensorEventListener, OnCli
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
 
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                         @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
 

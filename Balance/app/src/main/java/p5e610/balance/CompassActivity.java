@@ -32,21 +32,21 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     Float azimut;
     Button btnCancel;
     Button btnContinue;
-    Handler handler;
-    int interval= 1; // read sensor data each 1000 ms
-    boolean flag = false;
-    boolean isHandlerLive = false;
+//    Handler handler;
+//    int interval= 100; // read sensor data each 1000 ms
+//    boolean flag = false;
+//    boolean isHandlerLive = false;
 
-    private final Runnable processSensors = new Runnable() {
-        @Override
-        public void run() {
-            // Do work with the sensor values.
-
-            flag = true;
-            // The Runnable is posted to run again here:
-            handler.postDelayed(this, interval);
-        }
-    };
+//    private final Runnable processSensors = new Runnable() {
+//        @Override
+//        public void run() {
+//            // Do work with the sensor values.
+//
+//            flag = true;
+//            // The Runnable is posted to run again here:
+//            handler.postDelayed(this, interval);
+//        }
+//    };
 
 
     @Override
@@ -56,7 +56,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         setContentView(R.layout.activity_compass);
         image = (ImageView) findViewById(R.id.imageViewCompass);
         tvHeading = (TextView) findViewById(R.id.tvHeading);
-        handler = new Handler();
+//        handler = new Handler();
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -91,12 +91,12 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 //        SensorManager.SENSOR_DELAY_UI
         mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-        handler.post(processSensors);
+//        handler.post(processSensors);
     }
 
     @Override
     protected void onPause() {
-        handler.removeCallbacks(processSensors);
+//        handler.removeCallbacks(processSensors);
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
@@ -109,7 +109,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (flag){
+//        if (flag){
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
             mGravity = event.values;
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
@@ -130,7 +130,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
             tvHeading.setText("North: " + result + " degrees");
             image.setRotation(currentDegree);
             //change background color of the compass
-            if (Math.abs(currentDegree) < 5.0) {
+            if (Math.abs(currentDegree) < 10.0) {
 
                 image.setBackgroundResource(R.drawable.compass_bg_green);
                 btnContinue.setEnabled(true);
@@ -154,8 +154,8 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 //            // Start the animation
 //            image.startAnimation(ra);
             currentDegree = -azimut;
-            flag = false;
+//            flag = false;
         }
         }
-    }
+//    }
 }
